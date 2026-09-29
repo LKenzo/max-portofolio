@@ -4,9 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Max Frenat // Incident Response Dossier &amp; Portfolio</title>
-    <meta name="description" content="Personal portfolio and technical dossier for Max Frenat, Cybersecurity student at BINUS University." />
+    <meta name="description" content="Personal technical dossier and portfolio for Max Frenat, Cybersecurity student at BINUS University." />
     <meta name="author" content="Maximillian Delavega Adiwinata Frenat" />
-    <meta name="theme-color" content="#0C1017" />
+    <meta name="theme-color" content="#070A10" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -17,12 +17,25 @@
     <link rel="stylesheet" href="/src/styles/dossier.css" />
   </head>
   <body>
+    <!-- ATMOSPHERIC BACKGROUND LAYERS -->
+    <div class="watermark-container" aria-hidden="true">
+      <div class="watermark-text">INCIDENT DOSSIER</div>
+      <div class="watermark-text">SECURITY RECORD</div>
+    </div>
+    <div class="bg-grid-overlay" aria-hidden="true"></div>
+    <div class="bg-vignette" aria-hidden="true"></div>
+    <div class="scanlines-overlay" aria-hidden="true"></div>
+
+    <!-- MAIN DOSSIER DOCUMENT -->
     <div class="dossier-frame">
       <!-- Top Dossier Header -->
       <header class="dossier-header">
         <div class="header-brand">
-          <div class="header-title">MAX FRENAT</div>
-          <div class="header-sub">BINUS UNIVERSITY // CYBER SECURITY</div>
+          <div class="brand-marker"></div>
+          <div>
+            <div class="header-title">MAX FRENAT</div>
+            <div class="header-sub">BINUS UNIVERSITY // CYBER SECURITY</div>
+          </div>
         </div>
         <nav class="header-nav" aria-label="Main Navigation">
           <a href="#identity">&sect; 01 IDENTITY</a>
@@ -51,24 +64,67 @@
           <!-- SECTION 1: IDENTITY HERO -->
           <section id="identity" class="dossier-section hero-block">
             <div class="hero-meta-row">
-              <span class="stamp">RECORD // VERIFIED</span>
+              <span class="stamp">
+                <span class="pulse-dot"></span>
+                RECORD // VERIFIED
+              </span>
               <span class="stamp stamp-neutral">LOC // JAKARTA, INDONESIA</span>
+              <span class="stamp stamp-neutral">SPEC // BLUE TEAM &amp; FORENSICS</span>
             </div>
+
             <h1 class="hero-name">Max Frenat</h1>
+
             <p class="hero-statement">
               Cyber Security student at BINUS University with a strong foundation in algorithmic problem solving and web exploitation. Active CTF competitor with practical experience in vulnerability research and technical writing.
             </p>
+
+            <!-- Telemetry 4-Cell Metric Banner -->
+            <div class="hero-telemetry-strip">
+              <div class="telemetry-cell">
+                <span class="telemetry-label">INSTITUTION</span>
+                <span class="telemetry-value">BINUS Univ</span>
+              </div>
+              <div class="telemetry-cell">
+                <span class="telemetry-label">CUMULATIVE GPA</span>
+                <span class="telemetry-value">3.63 / 4.00</span>
+              </div>
+              <div class="telemetry-cell">
+                <span class="telemetry-label">CERTIFICATION</span>
+                <span class="telemetry-value">Fortinet FCF</span>
+              </div>
+              <div class="telemetry-cell">
+                <span class="telemetry-label">VERIFIED REPOS</span>
+                <span class="telemetry-value">7 Public</span>
+              </div>
+            </div>
+
             <div class="hero-actions">
-              <a href="#works" class="btn btn-primary">VIEW CASE FILES</a>
-              <a href="#contact" class="btn btn-outline">CONTACT CHANNELS</a>
+              <a href="#works" class="btn btn-primary">[+] INSPECT CASE FILES</a>
+              <a href="#contact" class="btn btn-outline">[&gt;] CONTACT CHANNELS</a>
             </div>
           </section>
+
+          <!-- TECHNICAL TICKER MARQUEE TAPE -->
+          <div class="dossier-marquee" aria-hidden="true">
+            <div class="marquee-track">
+              <span class="marquee-item">INCIDENT RESPONSE <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">DIGITAL FORENSICS <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">REVERSE ENGINEERING <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">NETWORK RECONNAISSANCE <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">ARTIFACT VERIFICATION <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">INCIDENT RESPONSE <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">DIGITAL FORENSICS <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">REVERSE ENGINEERING <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">NETWORK RECONNAISSANCE <span class="marquee-sep">//</span></span>
+              <span class="marquee-item">ARTIFACT VERIFICATION <span class="marquee-sep">//</span></span>
+            </div>
+          </div>
 
           <!-- SECTION 2: EDUCATION & CREDENTIALS -->
           <section id="credentials" class="dossier-section">
             <div>
               <span class="section-tag">&sect; 02 // ACADEMIC &amp; CREDENTIALS</span>
-              <h2 class="section-title">Education &amp; Certifications</h2>
+              <h2 class="section-title">Verified Qualifications</h2>
             </div>
             <p class="section-lead">
               Formal academic records, verified professional certifications, and completion credentials.
@@ -149,7 +205,10 @@
             <div class="skills-container">
               <!-- Binary & File Analysis -->
               <div class="skills-group">
-                <div class="skills-group-title">Binary &amp; File Analysis</div>
+                <div class="skills-group-header">
+                  <span class="skills-group-title">01 // Binary &amp; File Analysis</span>
+                  <span class="skills-count">9 Tools</span>
+                </div>
                 <div class="skills-badges">
                   <span class="skill-chip">xxd</span>
                   <span class="skill-chip">hexedit</span>
@@ -165,7 +224,10 @@
 
               <!-- Network & Systems -->
               <div class="skills-group">
-                <div class="skills-group-title">Network &amp; Systems</div>
+                <div class="skills-group-header">
+                  <span class="skills-group-title">02 // Network &amp; Systems Reconnaissance</span>
+                  <span class="skills-count">7 Tools</span>
+                </div>
                 <div class="skills-badges">
                   <span class="skill-chip">Wireshark</span>
                   <span class="skill-chip">tshark</span>
@@ -179,7 +241,10 @@
 
               <!-- Scripting & Programming -->
               <div class="skills-group">
-                <div class="skills-group-title">Scripting &amp; Programming</div>
+                <div class="skills-group-header">
+                  <span class="skills-group-title">03 // Scripting &amp; Testing</span>
+                  <span class="skills-count">5 Languages</span>
+                </div>
                 <div class="skills-badges">
                   <span class="skill-chip">Python</span>
                   <span class="skill-chip">Bash</span>
@@ -191,7 +256,10 @@
 
               <!-- Web & Data Frameworks -->
               <div class="skills-group">
-                <div class="skills-group-title">Web &amp; Frameworks</div>
+                <div class="skills-group-header">
+                  <span class="skills-group-title">04 // Web &amp; Architecture</span>
+                  <span class="skills-count">9 Frameworks</span>
+                </div>
                 <div class="skills-badges">
                   <span class="skill-chip">React</span>
                   <span class="skill-chip">NestJS</span>
@@ -207,7 +275,10 @@
 
               <!-- Security Topics -->
               <div class="skills-group">
-                <div class="skills-group-title">Documented Security Topics</div>
+                <div class="skills-group-header">
+                  <span class="skills-group-title">05 // Security Topics &amp; Practice</span>
+                  <span class="skills-count">5 Modules</span>
+                </div>
                 <div class="skills-badges">
                   <span class="skill-chip">PNG CRC recalculation</span>
                   <span class="skill-chip">Timing side-channel attack</span>
@@ -239,7 +310,7 @@
                   </a>
                 </div>
                 <div class="case-body">
-                  <h3 class="case-title">Cybersecurity Journey</h3>
+                  <h3 class="case-title">Cybersecurity Journey: File Analysis Walkthroughs</h3>
                   <div class="case-grid">
                     <div class="case-field-label">Problem</div>
                     <div class="case-field-value">
@@ -294,7 +365,7 @@
                   </a>
                 </div>
                 <div class="case-body">
-                  <h3 class="case-title">Mx-Security-Tools</h3>
+                  <h3 class="case-title">Mx-Security-Tools: Multithreaded TCP Port Scanner</h3>
                   <div class="case-grid">
                     <div class="case-field-label">Problem</div>
                     <div class="case-field-value">
@@ -349,7 +420,7 @@
                   </a>
                 </div>
                 <div class="case-body">
-                  <h3 class="case-title">Python Journey</h3>
+                  <h3 class="case-title">Python Journey: Security Scripting Modules</h3>
                   <div class="case-grid">
                     <div class="case-field-label">Problem</div>
                     <div class="case-field-value">

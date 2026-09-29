@@ -1,31 +1,35 @@
 /*
  * DESIGN TOKENS: Incident Response Dossier & Chain-of-Custody Ledger
- * All values expressed as CSS custom properties per AGENTS.md.
+ * High-contrast, atmospheric cyber defense tokens with forensic accents.
  */
 
 :root {
   /* Surface & Canvas Palette */
-  --bg-canvas: #0c1017;
-  --bg-surface: #131924;
-  --bg-surface-elevated: #1a2332;
-  --bg-surface-subtle: #0f141d;
+  --bg-canvas: #070a10;
+  --bg-surface: #0d121c;
+  --bg-surface-elevated: #131926;
+  --bg-surface-glass: rgba(13, 18, 28, 0.85);
 
   /* Text & Inks */
   --ink-primary: #f8fafc;
   --ink-secondary: #94a3b8;
-  --ink-muted: #64748b;
-  --ink-faint: #334155;
+  --ink-muted: #54657e;
+  --ink-faint: #293548;
 
-  /* Verification & Forensic Accents */
+  /* Forensic & Defense Accents */
   --accent-cobalt: #3b82f6;
+  --accent-cobalt-glow: rgba(59, 130, 246, 0.25);
   --accent-ice: #60a5fa;
+  --accent-cyan: #00f0ff;
+  --accent-cyan-dim: rgba(0, 240, 255, 0.15);
   --accent-emerald: #10b981;
+  --accent-emerald-glow: rgba(16, 185, 129, 0.2);
   --accent-ochre: #f59e0b;
 
-  /* Borders & Dividers */
-  --border-hairline: rgba(148, 163, 184, 0.15);
-  --border-subtle: rgba(148, 163, 184, 0.25);
-  --border-focus: rgba(59, 130, 246, 0.7);
+  /* Borders & Hairlines */
+  --border-hairline: rgba(56, 189, 248, 0.12);
+  --border-subtle: rgba(56, 189, 248, 0.25);
+  --border-active: rgba(56, 189, 248, 0.6);
   --border-verified: rgba(16, 185, 129, 0.4);
 
   /* Typography */
@@ -44,8 +48,8 @@
   --space-24: 6rem;    /* 96px */
 
   /* Layout & Grid */
-  --content-max-width: 1120px;
+  --content-max-width: 1140px;
   --rail-width: 140px;
-  --radius-sm: 3px;
+  --radius-sm: 2px;
   --radius-md: 4px;
 }
