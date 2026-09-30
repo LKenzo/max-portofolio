@@ -4,6 +4,7 @@ import {
   calculateScrollProgress,
   mapOffsetToCurveT,
   getTravelerScale,
+  deriveControlPointYValues,
 } from '../src/logic/scrollMath';
 
 describe('scrollMath logic tests', () => {
@@ -89,6 +90,28 @@ describe('scrollMath logic tests', () => {
     it('returns 1.0 on desktop widths (>= 768px)', () => {
       expect(getTravelerScale(768)).toBe(1.0);
       expect(getTravelerScale(1440)).toBe(1.0);
+    });
+  });
+
+  describe('deriveControlPointYValues()', () => {
+    it('derives 6 control point Y coordinates from measured DOM section offsets', () => {
+      const sectionTops = [0, 1000, 2000, 3000, 4000];
+      const yValues = deriveControlPointYValues(sectionTops, 0.8, -2.8);
+
+      expect(yValues).toHaveLength(6);
+      expect(yValues[0]).toBe(0.8);  // P0 (Hero start)
+      expect(yValues[5]).toBe(-2.8); // P5 (Contact resting bottom)
+      // Monotonically decreasing in world Y
+      for (let i = 0; i < yValues.length - 1; i++) {
+        expect(yValues[i]).toBeGreaterThanOrEqual(yValues[i + 1]);
+      }
+    });
+
+    it('handles fallback gracefully with missing or small section array', () => {
+      const fallback = deriveControlPointYValues([]);
+      expect(fallback).toHaveLength(6);
+      expect(fallback[0]).toBe(0.8);
+      expect(fallback[5]).toBe(-2.8);
     });
   });
 });

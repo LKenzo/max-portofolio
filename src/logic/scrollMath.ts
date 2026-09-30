@@ -33,7 +33,8 @@ export function calculateScrollProgress(
 
 /**
  * Maps current scroll position to curve parameter t in [0, 1] based on actual DOM section offsets.
- * Divides the spline into equal segments corresponding to section waypoints.
+ * Divides the spline into segments corresponding to section waypoints.
+ * Strictly clamps output in [0, 1].
  *
  * @param scrollY Current vertical scroll offset
  * @param viewportHeight Viewport height in pixels
@@ -70,6 +71,52 @@ export function mapOffsetToCurveT(
   }
 
   return 1;
+}
+
+/**
+ * Derives the 6 spline control point Y coordinates directly from measured DOM section offsets.
+ * Recomputed on window resize.
+ *
+ * @param sectionTops Measured top offsets (in px) of the document sections
+ * @param startY 3D world Y coordinate at Hero start (default: 0.8)
+ * @param endY 3D world Y coordinate at Contact resting position (default: -2.8)
+ */
+export function deriveControlPointYValues(
+  sectionTops: readonly number[],
+  startY = 0.8,
+  endY = -2.8
+): number[] {
+  if (!sectionTops || sectionTops.length < 2) {
+    return [startY, (startY + endY) / 2, -1.0, -1.8, -2.4, endY];
+  }
+
+  const s0 = sectionTops[0];
+  const sLast = sectionTops[sectionTops.length - 1];
+  const totalSpan = sLast - s0;
+  const worldSpan = startY - endY;
+
+  if (totalSpan <= 0) {
+    return [startY, (startY + endY) / 2, -1.0, -1.8, -2.4, endY];
+  }
+
+  // Relative progression [0, 1] for each measured DOM section offset
+  const rho = sectionTops.map((top) => clamp((top - s0) / totalSpan, 0, 1));
+
+  // P0: Hero
+  const y0 = startY;
+  // P1: Midpoint boundary between Hero and Credentials
+  const rhoBoundary = (rho[0] + (rho[1] ?? 0.25)) / 2;
+  const y1 = startY - rhoBoundary * worldSpan;
+  // P2: Credentials
+  const y2 = startY - (rho[1] ?? 0.25) * worldSpan;
+  // P3: Toolkit Audit
+  const y3 = startY - (rho[2] ?? 0.5) * worldSpan;
+  // P4: Exhibit Inspection
+  const y4 = startY - (rho[3] ?? 0.75) * worldSpan;
+  // P5: Contact Sign-off (fixed resting position inside viewport)
+  const y5 = endY;
+
+  return [y0, y1, y2, y3, y4, y5];
 }
 
 /**

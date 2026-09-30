@@ -92,21 +92,52 @@ export class EvidenceSeal {
     this.group.add(this.outerRing);
   }
 
+  private sealProgress = 0;
+
+  /**
+   * Updates seal state based on normalized scroll progress t [0, 1].
+   * At bottom (t >= 0.85), plays ring-closing clasp animation.
+   */
+  public setSealProgress(t: number): void {
+    this.sealProgress = Math.min(Math.max(t, 0), 1);
+
+    if (this.sealProgress >= 0.85) {
+      // Clasp phase: rings tighten toward core and align into planar seal
+      const closeFactor = (this.sealProgress - 0.85) / 0.15;
+      const targetScale = 1.0 - closeFactor * 0.22;
+      this.innerRing.scale.set(targetScale, targetScale, targetScale);
+      this.outerRing.scale.set(targetScale, targetScale, targetScale);
+    } else {
+      this.innerRing.scale.set(1, 1, 1);
+      this.outerRing.scale.set(1, 1, 1);
+    }
+  }
+
   /**
    * Continuous micro-rotation for procedural kinetic presence
    */
   public update(delta: number): void {
-    // Core subtle pulse
+    // Core rotation (always active, never stops spinning)
     this.prism.rotation.y += delta * 0.4;
     this.prism.rotation.x += delta * 0.15;
     this.wireframe.rotation.copy(this.prism.rotation);
 
-    // Counter-rotating orbital rings
-    this.innerRing.rotation.x += delta * 0.7;
-    this.innerRing.rotation.z += delta * 0.5;
+    if (this.sealProgress >= 0.85) {
+      // Closed clasp: rings align planar to the seal and rotate synchronously
+      const closeFactor = (this.sealProgress - 0.85) / 0.15;
+      this.innerRing.rotation.x = (1 - closeFactor) * 0.78;
+      this.innerRing.rotation.z += delta * 0.4;
 
-    this.outerRing.rotation.y -= delta * 0.5;
-    this.outerRing.rotation.z -= delta * 0.3;
+      this.outerRing.rotation.y = (1 - closeFactor) * 1.04;
+      this.outerRing.rotation.z -= delta * 0.4;
+    } else {
+      // Open transit mode: dynamic multi-axis counter-rotating orbital rings
+      this.innerRing.rotation.x += delta * 0.7;
+      this.innerRing.rotation.z += delta * 0.5;
+
+      this.outerRing.rotation.y -= delta * 0.5;
+      this.outerRing.rotation.z -= delta * 0.3;
+    }
   }
 
   /**

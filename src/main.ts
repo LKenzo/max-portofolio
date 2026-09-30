@@ -25,6 +25,7 @@ const SECTION_IDS = ['identity', 'credentials', 'skills', 'works', 'contact'];
 let sectionTops: number[] = [];
 let lenisInstance: Lenis | null = null;
 let updateSceneTarget: ((t: number) => void) | null = null;
+let updateSceneOffsets: ((tops: readonly number[]) => void) | null = null;
 
 function recomputeSectionOffsets(): void {
   sectionTops = SECTION_IDS.map((id) => {
@@ -275,10 +276,11 @@ function setupAnchorNavigation(): void {
 async function lazyLoadScene(): Promise<void> {
   try {
     const { SceneManager } = await import('./scene/SceneManager');
-    const sceneManager = new SceneManager(document.body);
-    const initialized = sceneManager.init();
+    const sceneManager = new SceneManager(document.body, sectionTops);
+    const initialized = sceneManager.init(sectionTops);
     if (initialized) {
       updateSceneTarget = (t: number) => sceneManager.updateTargetT(t);
+      updateSceneOffsets = (tops: readonly number[]) => sceneManager.setSectionOffsets(tops);
       handleScroll(window.scrollY);
     }
   } catch (err) {
@@ -296,6 +298,7 @@ function init(): void {
   recomputeSectionOffsets();
   window.addEventListener('resize', () => {
     recomputeSectionOffsets();
+    updateSceneOffsets?.(sectionTops);
     handleScroll(window.scrollY);
   });
 

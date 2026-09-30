@@ -38,16 +38,30 @@ export class SceneManager {
   private animId: number | null = null;
   private clock = new Clock();
   private observer: IntersectionObserver | null = null;
+  private sectionTops: readonly number[] = [];
 
   // Cached state for smooth interpolation
   private currentT = 0;
   private targetT = 0;
 
-  constructor(container: HTMLElement) {
+  constructor(container: HTMLElement, sectionTops?: readonly number[]) {
     this.container = container;
+    if (sectionTops) {
+      this.sectionTops = sectionTops;
+    }
   }
 
-  public init(): boolean {
+  public setSectionOffsets(sectionTops: readonly number[]): void {
+    this.sectionTops = sectionTops;
+    const isMobile = window.innerWidth < 768;
+    this.curve = createTravelPath(isMobile, this.sectionTops);
+  }
+
+  public init(sectionTops?: readonly number[]): boolean {
+    if (sectionTops) {
+      this.sectionTops = sectionTops;
+    }
+
     // 1. Accessibility Gate: prefers-reduced-motion
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       this.mountFallback();
@@ -72,12 +86,6 @@ export class SceneManager {
       // Canvas & Renderer with strict capped pixel ratio
       this.canvas = document.createElement('canvas');
       this.canvas.className = 'scene-traveler-canvas';
-      this.canvas.style.position = 'fixed';
-      this.canvas.style.inset = '0';
-      this.canvas.style.width = '100vw';
-      this.canvas.style.height = '100vh';
-      this.canvas.style.pointerEvents = 'none';
-      this.canvas.style.zIndex = '5';
       this.container.appendChild(this.canvas);
 
       this.renderer = new WebGLRenderer({
@@ -101,9 +109,9 @@ export class SceneManager {
       rimLight.position.set(-6, -4, 5);
       this.scene.add(rimLight);
 
-      // 4. Procedural Traveler & Path
+      // 4. Procedural Traveler & Path with DOM Section Derivation
       const isMobile = window.innerWidth < 768;
-      this.curve = createTravelPath(isMobile);
+      this.curve = createTravelPath(isMobile, this.sectionTops);
       this.seal = new EvidenceSeal();
 
       const scale = getTravelerScale(window.innerWidth);
@@ -137,7 +145,7 @@ export class SceneManager {
    * Sets the target curve position t in [0, 1] based on section offset progress
    */
   public updateTargetT(t: number): void {
-    this.targetT = Math.min(Math.max(t, 0), 1);
+    this.targetT = Math.min(Math.max(t, 0), 1.0);
   }
 
   private animate = (): void => {
@@ -153,12 +161,16 @@ export class SceneManager {
 
     // Smooth lerp toward targetT to prevent sudden jumps
     this.currentT += (this.targetT - this.currentT) * 0.08;
+    const clampedT = Math.min(Math.max(this.currentT, 0), 1.0);
 
     // Sample 3D position along the spline
-    const pos = this.curve.getPointAt(this.currentT);
+    const pos = this.curve.getPointAt(clampedT);
     this.seal.group.position.copy(pos);
 
-    // Update kinetic micro-rotations
+    // Trigger ring-closing clasp animation as progress approaches the sealed finish
+    this.seal.setSealProgress(clampedT);
+
+    // Update kinetic micro-rotations (continuous core spin)
     this.seal.update(delta);
 
     this.renderer.render(this.scene, this.camera);
@@ -178,12 +190,13 @@ export class SceneManager {
 
     // Recompute path and traveler scale for new viewport
     const isMobile = width < 768;
-    this.curve = createTravelPath(isMobile);
+    this.curve = createTravelPath(isMobile, this.sectionTops);
 
     const scale = getTravelerScale(width);
     this.seal.group.scale.set(scale, scale, scale);
 
-    const pos = this.curve.getPointAt(this.currentT);
+    const clampedT = Math.min(Math.max(this.currentT, 0), 1.0);
+    const pos = this.curve.getPointAt(clampedT);
     this.seal.group.position.copy(pos);
   };
 
