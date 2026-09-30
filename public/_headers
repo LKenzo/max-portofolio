@@ -1,3 +1,5 @@
+# Cloudflare Pages Security & Content Security Policy (CSP) Headers
+# Strict static site policy: zero external scripts, zero external CDNs, self-hosted fonts only.
 /*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
