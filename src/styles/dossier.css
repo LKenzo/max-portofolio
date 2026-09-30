@@ -320,10 +320,20 @@ a {
   margin-bottom: var(--space-6);
 }
 
-/* Redaction overlay wrapper */
-.redaction-wrap {
+/* Redaction overlay wrapper per word */
+.redaction-word {
   position: relative;
   display: inline-block;
+  margin-right: 0.18em;
+}
+
+.redaction-word:last-child {
+  margin-right: 0;
+}
+
+.redaction-text {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-name {
@@ -335,25 +345,26 @@ a {
   color: var(--paper-manila);
 }
 
-/* Redaction bar layer: sits directly over the DOM text */
+/* Redaction bar layer: near-black (#04060a), sized to the text, sits directly over the DOM text */
 .redaction-bar {
   position: absolute;
-  inset: -4px -8px;
-  background-color: var(--paper-manila);
-  transform-origin: right center;
-  transform: scaleX(1);
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  inset: 0px -2px; /* Tightly sized to the text */
+  background-color: #04060a;
+  transform-origin: top center;
+  transform: translateY(0) scaleY(1);
+  transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
   pointer-events: none;
   z-index: 2;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
 }
 
-/* Lifting state */
-.redaction-wrap.is-revealed .redaction-bar {
-  transform: scaleX(0);
+/* Lifting state: lifts per word and vanishes completely so it does not remain at rest */
+.redaction-word.is-revealed .redaction-bar {
+  transform: translateY(-115%) scaleY(0);
+  opacity: 0;
 }
 
-/* Fallback for no-js or prefers-reduced-motion */
+/* Fallback for no-js or prefers-reduced-motion: no bar exists */
 .no-js .redaction-bar {
   display: none !important;
 }

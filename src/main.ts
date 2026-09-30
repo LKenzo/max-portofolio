@@ -44,18 +44,20 @@ function handleScroll(scrollY: number): void {
 
 function initHeroRedaction(): void {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const wrap = document.querySelector('.redaction-wrap');
-  if (!wrap) return;
+  const words = document.querySelectorAll<HTMLElement>('.redaction-word');
+  if (words.length === 0) return;
 
   if (prefersReducedMotion) {
-    wrap.classList.add('is-revealed');
+    words.forEach((w) => w.classList.add('is-revealed'));
     return;
   }
 
-  // Lift the redaction bar smoothly shortly after initial paint
-  setTimeout(() => {
-    wrap.classList.add('is-revealed');
-  }, 350);
+  // Lift the redaction bars sequentially per word shortly after initial paint
+  words.forEach((word, idx) => {
+    setTimeout(() => {
+      word.classList.add('is-revealed');
+    }, 320 + idx * 160);
+  });
 }
 
 /**
