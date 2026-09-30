@@ -90,7 +90,7 @@ a {
   backdrop-filter: blur(8px);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1000px) {
   .dossier-header {
     flex-direction: row;
     justify-content: space-between;
@@ -103,6 +103,7 @@ a {
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  min-width: 0;
 }
 
 .brand-marker {
@@ -110,6 +111,7 @@ a {
   height: 10px;
   background-color: var(--marker-yellow);
   transform: rotate(45deg);
+  flex-shrink: 0;
 }
 
 .header-title {
@@ -135,10 +137,18 @@ a {
   font-size: 0.8125rem;
 }
 
+@media (max-width: 999px) {
+  .header-nav {
+    width: 100%;
+    gap: var(--space-2) var(--space-3);
+  }
+}
+
 .header-nav a {
   color: var(--ink-muted);
   padding: var(--space-1) 0;
   border-bottom: 1px solid transparent;
+  white-space: nowrap;
 }
 
 .header-nav a:hover,
@@ -167,6 +177,12 @@ a {
 /* Asymmetric Left Custody Rail */
 .dossier-rail {
   display: none;
+}
+
+@media (max-width: 1023px) {
+  .dossier-rail {
+    display: none !important;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -202,11 +218,12 @@ a {
   color: var(--ink-muted);
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  padding: var(--space-1) 0;
+  gap: 3px;
+  padding: var(--space-2) 0;
   border-left: 2px solid transparent;
-  padding-left: var(--space-2);
+  padding-left: var(--space-3);
   transition: all 0.2s ease;
+  word-break: break-word;
 }
 
 .rail-link-step {
@@ -215,7 +232,9 @@ a {
 }
 
 .rail-link-title {
+  font-size: 0.75rem;
   font-weight: 700;
+  line-height: 1.35;
 }
 
 .rail-link:hover {
