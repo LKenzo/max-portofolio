@@ -89,15 +89,15 @@ export class SceneManager {
       this.renderer.setSize(window.innerWidth, window.innerHeight);
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-      // Lighting: Key light, rim light, and ambient
-      const ambientLight = new AmbientLight(0xffffff, 0.7);
+      // Lighting: Key light (warm Manila), rim light (UV violet), and ambient
+      const ambientLight = new AmbientLight(0xfff7ed, 0.65);
       this.scene.add(ambientLight);
 
-      const keyLight = new DirectionalLight(0x00f0ff, 2.2);
+      const keyLight = new DirectionalLight(0xe8dfd1, 2.2);
       keyLight.position.set(5, 8, 7);
       this.scene.add(keyLight);
 
-      const rimLight = new DirectionalLight(0x3b82f6, 1.8);
+      const rimLight = new DirectionalLight(0xa855f7, 1.8);
       rimLight.position.set(-6, -4, 5);
       this.scene.add(rimLight);
 
