@@ -5,12 +5,13 @@ import { mapOffsetToCurveT } from './logic/scrollMath';
  * CLIENT ORCHESTRATOR
  *
  * Implements:
- * 1. Instant first paint: 3D scene lazy-loaded asynchronously after initial render
- * 2. Lenis smooth scrolling (disabled if prefers-reduced-motion: reduce)
- * 3. Real DOM section offset tracking (recomputed on resize)
- * 4. 3D Cryptographic Evidence Seal positioning along Catmull-Rom spline
- * 5. Active margin rail indicators
- * 6. Accessible keyboard and anchor navigation
+ * 1. Progressive enhancement: replaces 'no-js' with 'js'
+ * 2. Instant first paint: 3D scene lazy-loaded asynchronously after initial render
+ * 3. Lenis smooth scrolling (disabled if prefers-reduced-motion: reduce)
+ * 4. Real DOM section offset tracking (recomputed on resize)
+ * 5. 3D Cryptographic Evidence Seal positioning along Catmull-Rom spline
+ * 6. Chain of Custody navigation & active stage tracking via CSS classes
+ * 7. Hero name redaction bar lift signature reveal
  */
 
 const SECTION_IDS = ['identity', 'credentials', 'skills', 'works', 'contact'];
@@ -34,11 +35,28 @@ function handleScroll(scrollY: number): void {
   updateSceneTarget(t);
 }
 
-function setupRailObserver(): void {
+function initHeroRedaction(): void {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wrap = document.querySelector('.redaction-wrap');
+  if (!wrap) return;
+
+  if (prefersReducedMotion) {
+    wrap.classList.add('is-revealed');
+    return;
+  }
+
+  // Lift the redaction bar smoothly shortly after initial paint
+  setTimeout(() => {
+    wrap.classList.add('is-revealed');
+  }, 350);
+}
+
+function setupCustodyObserver(): void {
   const sections = document.querySelectorAll<HTMLElement>('.dossier-section');
   const railLinks = document.querySelectorAll<HTMLAnchorElement>('.rail-link');
+  const headerLinks = document.querySelectorAll<HTMLAnchorElement>('.header-nav a');
 
-  if (!('IntersectionObserver' in window) || sections.length === 0 || railLinks.length === 0) {
+  if (!('IntersectionObserver' in window) || sections.length === 0) {
     return;
   }
 
@@ -47,14 +65,22 @@ function setupRailObserver(): void {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.getAttribute('id');
+
           railLinks.forEach((link) => {
             const href = link.getAttribute('href');
             if (href === `#${id}`) {
-              link.style.color = 'var(--accent-cyan)';
-              link.style.fontWeight = '700';
+              link.classList.add('is-active');
             } else {
-              link.style.color = '';
-              link.style.fontWeight = '';
+              link.classList.remove('is-active');
+            }
+          });
+
+          headerLinks.forEach((link) => {
+            const href = link.getAttribute('href');
+            if (href === `#${id}`) {
+              link.classList.add('is-active');
+            } else {
+              link.classList.remove('is-active');
             }
           });
         }
@@ -110,6 +136,9 @@ async function lazyLoadScene(): Promise<void> {
 }
 
 function init(): void {
+  // Progressive enhancement: mark document as JavaScript-enabled
+  document.documentElement.classList.replace('no-js', 'js');
+
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   // 1. Compute initial section DOM offsets
@@ -119,11 +148,14 @@ function init(): void {
     handleScroll(window.scrollY);
   });
 
-  // 2. Setup UI observers & navigation
-  setupRailObserver();
+  // 2. Setup hero redaction reveal
+  initHeroRedaction();
+
+  // 3. Setup UI observers & navigation
+  setupCustodyObserver();
   setupAnchorNavigation();
 
-  // 3. Initialize Smooth Scrolling (Lenis) if motion is permitted
+  // 4. Initialize Smooth Scrolling (Lenis) if motion is permitted
   if (!prefersReducedMotion) {
     lenisInstance = new Lenis({
       duration: 1.1,
@@ -150,7 +182,7 @@ function init(): void {
     });
   }
 
-  // 4. Lazy-load 3D scene after initial paint (satisfies AGENTS.md lazy-load gate)
+  // 5. Lazy-load 3D scene after initial paint (satisfies AGENTS.md lazy-load gate)
   requestAnimationFrame(() => {
     setTimeout(lazyLoadScene, 50);
   });

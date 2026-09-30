@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Max Frenat // Incident Response Dossier &amp; Portfolio</title>
-    <meta name="description" content="Personal technical dossier and portfolio for Max Frenat, Cybersecurity student at BINUS University." />
+    <title>Max Frenat // Chain of Custody &amp; Technical Portfolio</title>
+    <meta name="description" content="Chain of Custody technical portfolio for Max Frenat, Cybersecurity student at BINUS University." />
     <meta name="author" content="Maximillian Delavega Adiwinata Frenat" />
-    <meta name="theme-color" content="#070A10" />
+    <meta name="theme-color" content="#0a0d16" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -17,125 +17,118 @@
     <link rel="stylesheet" href="/src/styles/dossier.css" />
   </head>
   <body>
-    <!-- ATMOSPHERIC BACKGROUND LAYERS -->
-    <div class="watermark-container" aria-hidden="true">
-      <div class="watermark-text">INCIDENT DOSSIER</div>
-      <div class="watermark-text">SECURITY RECORD</div>
-    </div>
-    <div class="bg-grid-overlay" aria-hidden="true"></div>
-    <div class="bg-vignette" aria-hidden="true"></div>
-    <div class="scanlines-overlay" aria-hidden="true"></div>
-
     <!-- MAIN DOSSIER DOCUMENT -->
     <div class="dossier-frame">
-      <!-- Top Dossier Header -->
+      <!-- Top Chain of Custody Header -->
       <header class="dossier-header">
         <div class="header-brand">
-          <div class="brand-marker"></div>
+          <div class="brand-marker" aria-hidden="true"></div>
           <div>
             <div class="header-title">MAX FRENAT</div>
-            <div class="header-sub">BINUS UNIVERSITY // CYBER SECURITY</div>
+            <div class="header-sub">CHAIN OF CUSTODY // BINUS UNIVERSITY CYBERSECURITY</div>
           </div>
         </div>
-        <nav class="header-nav" aria-label="Main Navigation">
-          <a href="#identity">&sect; 01 IDENTITY</a>
-          <a href="#credentials">&sect; 02 CREDENTIALS</a>
-          <a href="#skills">&sect; 03 SKILLS</a>
-          <a href="#works">&sect; 04 CASE FILES</a>
-          <a href="#contact">&sect; 05 CONTACT</a>
+        <nav class="header-nav" aria-label="Custody Log Navigation">
+          <a href="#identity">01 INTAKE</a>
+          <a href="#credentials">02 CREDENTIALS</a>
+          <a href="#skills">03 TOOLKIT</a>
+          <a href="#works">04 EXHIBITS</a>
+          <a href="#contact">05 SIGN-OFF</a>
         </nav>
       </header>
 
       <!-- Main Document Grid -->
       <div class="dossier-grid">
-        <!-- Asymmetric Left Margin Rail -->
-        <aside class="dossier-rail" aria-hidden="true">
+        <!-- Asymmetric Left Margin Rail: Custody Log -->
+        <aside class="dossier-rail" aria-label="Custody Stages">
+          <div class="rail-label">CUSTODY LOG</div>
           <nav class="rail-nav">
-            <a href="#identity" class="rail-link">&sect; 01 IDENTITY</a>
-            <a href="#credentials" class="rail-link">&sect; 02 CREDENTIALS</a>
-            <a href="#skills" class="rail-link">&sect; 03 SKILLS</a>
-            <a href="#works" class="rail-link">&sect; 04 CASE FILES</a>
-            <a href="#contact" class="rail-link">&sect; 05 CONTACT</a>
+            <a href="#identity" class="rail-link">
+              <span class="rail-link-step">STAGE 01</span>
+              <span class="rail-link-title">INTAKE &amp; COLLECTION</span>
+            </a>
+            <a href="#credentials" class="rail-link">
+              <span class="rail-link-step">STAGE 02</span>
+              <span class="rail-link-title">CREDENTIALS LOGGED</span>
+            </a>
+            <a href="#skills" class="rail-link">
+              <span class="rail-link-step">STAGE 03</span>
+              <span class="rail-link-title">TOOLKIT AUDIT</span>
+            </a>
+            <a href="#works" class="rail-link">
+              <span class="rail-link-step">STAGE 04</span>
+              <span class="rail-link-title">EXHIBIT INSPECTION</span>
+            </a>
+            <a href="#contact" class="rail-link">
+              <span class="rail-link-step">STAGE 05</span>
+              <span class="rail-link-title">CUSTODY SIGN-OFF</span>
+            </a>
           </nav>
         </aside>
 
         <!-- Content Column -->
         <main class="dossier-content">
-          <!-- SECTION 1: IDENTITY HERO -->
+          <!-- SECTION 1: INTAKE & COLLECTION (HERO) -->
           <section id="identity" class="dossier-section hero-block">
             <div class="hero-meta-row">
-              <span class="stamp">
-                <span class="pulse-dot"></span>
-                RECORD // VERIFIED
-              </span>
-              <span class="stamp stamp-neutral">LOC // JAKARTA, INDONESIA</span>
-              <span class="stamp stamp-neutral">SPEC // BLUE TEAM &amp; FORENSICS</span>
+              <span class="stage-indicator">STAGE 01 // INTAKE &amp; COLLECTION</span>
+              <span class="case-badge">CASE NO: MF-2026-CYBER</span>
+              <span class="case-badge">LOC: JAKARTA, ID</span>
             </div>
 
-            <h1 class="hero-name">Max Frenat</h1>
+            <!-- Signature Moment 1: Hero Name Redaction Lift -->
+            <div class="hero-identity-group">
+              <div class="redaction-wrap">
+                <h1 class="hero-name">Max Frenat</h1>
+                <div class="redaction-bar" aria-hidden="true"></div>
+              </div>
+              <p class="hero-legal-name">
+                LEGAL IDENTITY: Maximillian Delavega Adiwinata Frenat
+              </p>
+            </div>
 
             <p class="hero-statement">
               Cyber Security student at BINUS University with a strong foundation in algorithmic problem solving and web exploitation. Active CTF competitor with practical experience in vulnerability research and technical writing.
             </p>
 
-            <!-- Telemetry 4-Cell Metric Banner -->
-            <div class="hero-telemetry-strip">
-              <div class="telemetry-cell">
-                <span class="telemetry-label">INSTITUTION</span>
-                <span class="telemetry-value">BINUS Univ</span>
+            <!-- Quiet Forensic Facts Row (Not telemetry blocks) -->
+            <div class="hero-facts-row">
+              <div class="fact-item">
+                <span class="fact-label">INSTITUTION</span>
+                <span class="fact-value">BINUS University</span>
               </div>
-              <div class="telemetry-cell">
-                <span class="telemetry-label">CUMULATIVE GPA</span>
-                <span class="telemetry-value">3.63 / 4.00</span>
+              <div class="fact-item">
+                <span class="fact-label">ACADEMIC PROGRAM</span>
+                <span class="fact-value">CS (Cyber Security)</span>
               </div>
-              <div class="telemetry-cell">
-                <span class="telemetry-label">CERTIFICATION</span>
-                <span class="telemetry-value">Fortinet FCF</span>
-              </div>
-              <div class="telemetry-cell">
-                <span class="telemetry-label">VERIFIED REPOS</span>
-                <span class="telemetry-value">7 Public</span>
+              <div class="fact-item">
+                <span class="fact-label">CERTIFICATION</span>
+                <span class="fact-value">Fortinet FCF</span>
               </div>
             </div>
 
             <div class="hero-actions">
-              <a href="#works" class="btn btn-primary">[+] INSPECT CASE FILES</a>
-              <a href="#contact" class="btn btn-outline">[&gt;] CONTACT CHANNELS</a>
+              <a href="#works" class="btn btn-primary">INSPECT EXHIBITS</a>
+              <a href="#contact" class="btn btn-outline">TRANSFER CUSTODY</a>
             </div>
           </section>
 
-          <!-- TECHNICAL TICKER MARQUEE TAPE -->
-          <div class="dossier-marquee" aria-hidden="true">
-            <div class="marquee-track">
-              <span class="marquee-item">INCIDENT RESPONSE <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">DIGITAL FORENSICS <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">REVERSE ENGINEERING <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">NETWORK RECONNAISSANCE <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">ARTIFACT VERIFICATION <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">INCIDENT RESPONSE <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">DIGITAL FORENSICS <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">REVERSE ENGINEERING <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">NETWORK RECONNAISSANCE <span class="marquee-sep">//</span></span>
-              <span class="marquee-item">ARTIFACT VERIFICATION <span class="marquee-sep">//</span></span>
-            </div>
-          </div>
-
-          <!-- SECTION 2: EDUCATION & CREDENTIALS -->
+          <!-- SECTION 2: CREDENTIALS LOGGED -->
           <section id="credentials" class="dossier-section">
-            <div>
-              <span class="section-tag">&sect; 02 // ACADEMIC &amp; CREDENTIALS</span>
-              <h2 class="section-title">Verified Qualifications</h2>
+            <div class="section-meta-row">
+              <span class="stage-indicator">STAGE 02 // CREDENTIALS LOGGED</span>
             </div>
+            <h2 class="section-title">Academic &amp; Professional Qualifications</h2>
             <p class="section-lead">
-              Formal academic records, verified professional certifications, and completion credentials.
+              Formal academic degree progress, vendor security certification, and foundational training credentials.
             </p>
 
             <div class="record-grid">
-              <!-- Education -->
+              <!-- BINUS University -->
               <article class="record-card">
                 <div class="record-header">
                   <h3 class="record-title">Bachelor of Computer Science (Cyber Security)</h3>
-                  <span class="stamp">GPA 3.63/4.00</span>
+                  <span class="stamp">GPA 3.63 / 4.00</span>
                 </div>
                 <div class="record-institution">BINUS University &middot; Aug 2024 &ndash; Present</div>
                 <div class="record-detail">
@@ -151,13 +144,13 @@
                 </div>
               </article>
 
-              <!-- Fortinet FCF Certification -->
+              <!-- Fortinet FCF -->
               <article class="record-card">
                 <div class="record-header">
                   <h3 class="record-title">Fortinet Certified Fundamentals (FCF)</h3>
                   <span class="stamp">JUL 2026</span>
                 </div>
-                <div class="record-institution">Fortinet &middot; Cybersecurity</div>
+                <div class="record-institution">Fortinet &middot; Cybersecurity Certification</div>
                 <p class="record-detail">
                   Official certification in foundational network security, threat landscape analysis, and core defensive concepts.
                 </p>
@@ -178,11 +171,11 @@
                 </div>
               </article>
 
-              <!-- Experience / BCSC & Lab Assistant -->
+              <!-- Lab Assistant Trainee -->
               <article class="record-card">
                 <div class="record-header">
                   <h3 class="record-title">Lab Assistant &middot; Trainee</h3>
-                  <span class="stamp stamp-neutral">OCT &ndash; DEC 2025</span>
+                  <span class="stamp">OCT &ndash; DEC 2025</span>
                 </div>
                 <div class="record-institution">BINUS University</div>
                 <p class="record-detail">
@@ -192,14 +185,14 @@
             </div>
           </section>
 
-          <!-- SECTION 3: SKILLS & TOOLS INVENTORY -->
+          <!-- SECTION 3: TOOLKIT AUDIT -->
           <section id="skills" class="dossier-section">
-            <div>
-              <span class="section-tag">&sect; 03 // TECHNICAL ARSENAL</span>
-              <h2 class="section-title">Verified Tools &amp; Methods</h2>
+            <div class="section-meta-row">
+              <span class="stage-indicator">STAGE 03 // TOOLKIT AUDIT</span>
             </div>
+            <h2 class="section-title">Technical Inventory &amp; Practice</h2>
             <p class="section-lead">
-              Every tool and topic below is directly evidenced in public repository code and CTF walkthroughs on GitHub.
+              Categorized inventory of tools, languages, and technical methods evidenced in public repository code and CTF walkthroughs.
             </p>
 
             <div class="skills-container">
@@ -225,7 +218,7 @@
               <!-- Network & Systems -->
               <div class="skills-group">
                 <div class="skills-group-header">
-                  <span class="skills-group-title">02 // Network &amp; Systems Reconnaissance</span>
+                  <span class="skills-group-title">02 // Network &amp; Systems</span>
                   <span class="skills-count">7 Tools</span>
                 </div>
                 <div class="skills-badges">
@@ -233,13 +226,13 @@
                   <span class="skill-chip">tshark</span>
                   <span class="skill-chip">sha256sum</span>
                   <span class="skill-chip">openssl</span>
-                  <span class="skill-chip">TCP port scanning</span>
+                  <span class="skill-chip">TCP port scanner</span>
                   <span class="skill-chip">Python socket</span>
                   <span class="skill-chip">argparse</span>
                 </div>
               </div>
 
-              <!-- Scripting & Programming -->
+              <!-- Scripting & Testing -->
               <div class="skills-group">
                 <div class="skills-group-header">
                   <span class="skills-group-title">03 // Scripting &amp; Testing</span>
@@ -254,7 +247,7 @@
                 </div>
               </div>
 
-              <!-- Web & Data Frameworks -->
+              <!-- Web & Architecture -->
               <div class="skills-group">
                 <div class="skills-group-header">
                   <span class="skills-group-title">04 // Web &amp; Architecture</span>
@@ -273,11 +266,11 @@
                 </div>
               </div>
 
-              <!-- Security Topics -->
+              <!-- Security Topics & Practice -->
               <div class="skills-group">
                 <div class="skills-group-header">
                   <span class="skills-group-title">05 // Security Topics &amp; Practice</span>
-                  <span class="skills-count">5 Modules</span>
+                  <span class="skills-count">5 Areas</span>
                 </div>
                 <div class="skills-badges">
                   <span class="skill-chip">PNG CRC recalculation</span>
@@ -290,247 +283,41 @@
             </div>
           </section>
 
-          <!-- SECTION 4: CASE FILES (WORKS) -->
+          <!-- SECTION 4: EXHIBIT INSPECTION (WORKS) -->
           <section id="works" class="dossier-section">
-            <div>
-              <span class="section-tag">&sect; 04 // CASE FILES</span>
-              <h2 class="section-title">Selected Case Studies</h2>
+            <div class="section-meta-row">
+              <span class="stage-indicator">STAGE 04 // EXHIBIT INSPECTION</span>
             </div>
+            <h2 class="section-title">Chain of Custody Exhibits</h2>
             <p class="section-lead">
-              Structured technical case studies derived strictly from verified public code and writeups.
+              Case studies built directly from public repository code and walkthroughs.
             </p>
 
-            <div class="case-files-stack">
-              <!-- CASE-01 -->
+            <div class="case-files-stack" id="exhibits-stack">
+              <!-- Case studies will be fully structured and dynamically hashed in Commit 6 -->
               <article class="case-file-card">
                 <div class="case-file-top">
-                  <div class="case-id">CASE-01 // CTF WRITEUPS &amp; FILE ANALYSIS</div>
+                  <div class="case-id">EXHIBIT A // CYBERSECURITY JOURNEY</div>
                   <a href="https://github.com/LKenzo/Cybersecurity-Journey" target="_blank" rel="noopener" class="case-repo-link">
                     github.com/LKenzo/Cybersecurity-Journey &nearr;
                   </a>
                 </div>
-                <div class="case-body">
-                  <h3 class="case-title">Cybersecurity Journey: File Analysis Walkthroughs</h3>
-                  <div class="case-grid">
-                    <div class="case-field-label">Problem</div>
-                    <div class="case-field-value">
-                      Investigating damaged or intentionally corrupted file headers and solving forensic challenges in CTF competitions.
-                    </div>
-
-                    <div class="case-field-label">Environment</div>
-                    <div class="case-field-value">
-                      Linux, xxd, pngcheck, sha256sum, Python 3.
-                    </div>
-
-                    <div class="case-field-label">Method</div>
-                    <div class="case-field-value">
-                      Inspected raw byte sequences using hex tools, recalculated corrupted PNG CRC checksums to restore image headers, and automated hash verification against wordlists.
-                    </div>
-
-                    <div class="case-field-label">Evidence</div>
-                    <div class="case-field-value">
-                      <ul class="case-evidence-list">
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Cybersecurity-Journey/blob/main/writeups/cylabs/forensics/medium/c0rrupt.md" target="_blank" rel="noopener">writeups/cylabs/forensics/medium/c0rrupt.md</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Cybersecurity-Journey/blob/main/writeups/cylabs/forensics/easy/verify.md" target="_blank" rel="noopener">writeups/cylabs/forensics/easy/verify.md</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Cybersecurity-Journey/blob/main/README.md" target="_blank" rel="noopener">Cybersecurity-Journey/README.md</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="case-field-label">Outcome</div>
-                    <div class="case-field-value">
-                      Documented technical writeups published with reproduction steps and tool references.
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <!-- CASE-02 -->
-              <article class="case-file-card">
-                <div class="case-file-top">
-                  <div class="case-id">CASE-02 // NETWORK RECONNAISSANCE TOOLING</div>
-                  <a href="https://github.com/LKenzo/Mx-Security-Tools" target="_blank" rel="noopener" class="case-repo-link">
-                    github.com/LKenzo/Mx-Security-Tools &nearr;
-                  </a>
-                </div>
-                <div class="case-body">
-                  <h3 class="case-title">Mx-Security-Tools: Multithreaded TCP Port Scanner</h3>
-                  <div class="case-grid">
-                    <div class="case-field-label">Problem</div>
-                    <div class="case-field-value">
-                      Constructing a multithreaded command-line TCP scanner with port range configuration and local verification.
-                    </div>
-
-                    <div class="case-field-label">Environment</div>
-                    <div class="case-field-value">
-                      Python 3 (socket, threading, argparse).
-                    </div>
-
-                    <div class="case-field-label">Method</div>
-                    <div class="case-field-value">
-                      Implemented concurrent TCP socket connection routines with target IP resolution via argparse flags (-t with -p or -r) and a local mock socket server for testing.
-                    </div>
-
-                    <div class="case-field-label">Evidence</div>
-                    <div class="case-field-value">
-                      <ul class="case-evidence-list">
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Mx-Security-Tools/blob/main/PortScanner/port_scanner.py" target="_blank" rel="noopener">PortScanner/port_scanner.py</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Mx-Security-Tools/blob/main/PortScanner/port_testing.py" target="_blank" rel="noopener">PortScanner/port_testing.py</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Mx-Security-Tools/blob/main/README.md" target="_blank" rel="noopener">Mx-Security-Tools/README.md</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="case-field-label">Outcome</div>
-                    <div class="case-field-value">
-                      Command-line tool and testing server for local validation. Note: intended for controlled security testing only.
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <!-- CASE-03 -->
-              <article class="case-file-card">
-                <div class="case-file-top">
-                  <div class="case-id">CASE-03 // SCRIPTING &amp; AUTOMATION PRACTICE</div>
-                  <a href="https://github.com/LKenzo/Python-Journey" target="_blank" rel="noopener" class="case-repo-link">
-                    github.com/LKenzo/Python-Journey &nearr;
-                  </a>
-                </div>
-                <div class="case-body">
-                  <h3 class="case-title">Python Journey: Security Scripting Modules</h3>
-                  <div class="case-grid">
-                    <div class="case-field-label">Problem</div>
-                    <div class="case-field-value">
-                      Building Python programming proficiency and test routines for CTFs and personal projects.
-                    </div>
-
-                    <div class="case-field-label">Environment</div>
-                    <div class="case-field-value">
-                      Python 3, pytest.
-                    </div>
-
-                    <div class="case-field-label">Method</div>
-                    <div class="case-field-value">
-                      Completed structured daily exercises (conditionals, brute-force simulation, error handling with pytest) and built mini-project utilities including URL sanitization and file signature verification.
-                    </div>
-
-                    <div class="case-field-label">Evidence</div>
-                    <div class="case-field-value">
-                      <ul class="case-evidence-list">
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Python-Journey/tree/main/mini-projects/url-sanitizer" target="_blank" rel="noopener">mini-projects/url-sanitizer/</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Python-Journey/tree/main/mini-projects/file-signature-checker" target="_blank" rel="noopener">mini-projects/file-signature-checker/</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Python-Journey/blob/main/README.md" target="_blank" rel="noopener">Python-Journey/README.md</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="case-field-label">Outcome</div>
-                    <div class="case-field-value">
-                      Documented repository of daily exercises, mini-projects, and pytest verification scripts.
-                    </div>
-                  </div>
-                </div>
-              </article>
-
-              <!-- CASE-04 -->
-              <article class="case-file-card">
-                <div class="case-file-top">
-                  <div class="case-id">CASE-04 // FULL-STACK PROTOTYPE</div>
-                  <a href="https://github.com/LKenzo/Social-Media-Project" target="_blank" rel="noopener" class="case-repo-link">
-                    github.com/LKenzo/Social-Media-Project &nearr;
-                  </a>
-                </div>
-                <div class="case-body">
-                  <h3 class="case-title">Full-Stack Social Media Prototype</h3>
-                  <div class="case-grid">
-                    <div class="case-field-label">Problem</div>
-                    <div class="case-field-value">
-                      Developing a full-stack social media prototype for the Lab Assistant 26-1 training take-home case.
-                    </div>
-
-                    <div class="case-field-label">Environment</div>
-                    <div class="case-field-value">
-                      React, NestJS, TypeScript, Prisma ORM, MySQL, Multer.
-                    </div>
-
-                    <div class="case-field-label">Method</div>
-                    <div class="case-field-value">
-                      Implemented user authentication via JWT, multimedia upload handling with Multer, and user search utilizing the Levenshtein distance algorithm with frontend debouncing.
-                    </div>
-
-                    <div class="case-field-label">Evidence</div>
-                    <div class="case-field-value">
-                      <ul class="case-evidence-list">
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Social-Media-Project/blob/main/readme.md" target="_blank" rel="noopener">Social-Media-Project/readme.md</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Social-Media-Project/tree/main/T005_WPProject" target="_blank" rel="noopener">T005_WPProject/ (React Frontend)</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                        <li class="case-evidence-item">
-                          <span>&bull;</span>
-                          <a href="https://github.com/LKenzo/Social-Media-Project/tree/main/t005_nest-js" target="_blank" rel="noopener">t005_nest-js/ (NestJS Backend)</a>
-                          <span class="stamp">[VERIFIED-RECORD]</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="case-field-label">Outcome</div>
-                    <div class="case-field-value">
-                      Working prototype completed and submitted for technical review as part of Lab Assistant training.
-                    </div>
-                  </div>
-                </div>
+                <h3 class="case-title">Cybersecurity Journey: File Analysis Walkthroughs</h3>
+                <p class="case-summary">
+                  A structured repository documenting hands-on cybersecurity laboratories, capture-the-flag (CTF) writeups, and binary file analysis.
+                </p>
               </article>
             </div>
           </section>
 
-          <!-- SECTION 5: CONTACT CHANNELS -->
+          <!-- SECTION 5: CUSTODY SIGN-OFF (CONTACT) -->
           <section id="contact" class="dossier-section">
-            <div>
-              <span class="section-tag">&sect; 05 // INQUIRY &amp; COMMUNICATIONS</span>
-              <h2 class="section-title">Verified Contact Channels</h2>
+            <div class="section-meta-row">
+              <span class="stage-indicator">STAGE 05 // CUSTODY SIGN-OFF</span>
             </div>
+            <h2 class="section-title">Custody Transfer &amp; Direct Communication</h2>
             <p class="section-lead">
-              Direct public channels. Email communication is held pending confirmation.
+              Direct communication channels. Email transmission is held pending verification.
             </p>
 
             <div class="contact-card">
@@ -538,14 +325,17 @@
                 <a href="https://github.com/LKenzo" target="_blank" rel="noopener" class="contact-link">
                   <span>GitHub:</span>
                   <strong>github.com/LKenzo</strong>
-                  <span>&nearr;</span>
+                  <span aria-hidden="true">&nearr;</span>
                 </a>
                 <a href="https://www.linkedin.com/in/maximillian-frenat-80ab41286/" target="_blank" rel="noopener" class="contact-link">
                   <span>LinkedIn:</span>
                   <strong>Maximillian Frenat</strong>
-                  <span>&nearr;</span>
+                  <span aria-hidden="true">&nearr;</span>
                 </a>
               </div>
+              <p class="contact-notice">
+                STATUS: Direct email transmission held pending domain verification.
+              </p>
             </div>
           </section>
         </main>
@@ -554,7 +344,7 @@
       <!-- Dossier Footer -->
       <footer class="dossier-footer">
         <div>
-          &copy; Max Frenat. All entries verified from CV and public GitHub repositories.
+          &copy; Max Frenat. All entries derived from CV and public GitHub repositories.
         </div>
         <div>
           <span>HOSTED: CLOUDFLARE PAGES</span> &middot;
