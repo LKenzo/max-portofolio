@@ -703,7 +703,163 @@ a {
   font-family: var(--font-mono);
   color: var(--marker-yellow);
   word-break: break-all;
+  display: block;
 }
+
+/* ==========================================================================
+   SIGNATURE MOMENT 2: UV-FLASHLIGHT CURSOR MASK ON EXHIBITS
+   ========================================================================== */
+
+/* Latent annotation layer: revealed by cursor UV mask */
+.uv-latent-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: var(--radius-sm);
+  background: radial-gradient(
+    circle 150px at var(--uv-x, -500px) var(--uv-y, -500px),
+    rgba(168, 85, 247, 0.12),
+    transparent 70%
+  );
+  mask-image: radial-gradient(
+    circle 150px at var(--uv-x, -500px) var(--uv-y, -500px),
+    black 30%,
+    transparent 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle 150px at var(--uv-x, -500px) var(--uv-y, -500px),
+    black 30%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  border: 1px solid var(--border-uv);
+  z-index: 3;
+}
+
+.case-file-card:hover .uv-latent-layer {
+  opacity: 1;
+}
+
+.uv-annotation-box {
+  background-color: rgba(18, 24, 38, 0.95);
+  border: 1px solid var(--uv-violet);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--paper-manila);
+  box-shadow: 0 0 15px var(--uv-violet-glow);
+  width: fit-content;
+}
+
+.uv-tag {
+  color: var(--uv-violet);
+  font-weight: 700;
+}
+
+/* User requirement: On touch and prefers-reduced-motion, show annotations statically instead of hiding them */
+@media (hover: none) and (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .uv-latent-layer {
+    position: static;
+    opacity: 1;
+    background: transparent;
+    border: none;
+    border-top: 1px dashed var(--border-uv);
+    padding: var(--space-3) 0 0 0;
+    margin-top: var(--space-4);
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+
+  .uv-annotation-box {
+    background-color: var(--bg-canvas);
+    border: 1px solid var(--border-hairline);
+    box-shadow: none;
+  }
+}
+
+/* ==========================================================================
+   COMPACT ARCHIVAL INDEX (REMAINING 3 REPOSITORIES)
+   ========================================================================== */
+
+.archive-index {
+  margin-top: var(--space-8);
+  padding: var(--space-6);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-hairline);
+}
+
+.archive-index-header {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--border-hairline);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.archive-title {
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--paper-manila);
+}
+
+.archive-meta {
+  font-family: var(--font-label);
+  font-size: 0.6875rem;
+  color: var(--ink-muted);
+}
+
+.archive-table-wrap {
+  overflow-x: auto;
+}
+
+.archive-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--font-label);
+  font-size: 0.8125rem;
+  text-align: left;
+}
+
+.archive-table th {
+  padding: var(--space-2) var(--space-3);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-muted);
+  border-bottom: 1px solid var(--border-docket);
+  text-transform: uppercase;
+}
+
+.archive-table td {
+  padding: var(--space-3);
+  border-bottom: 1px solid var(--border-hairline);
+  vertical-align: top;
+  color: var(--ink-secondary);
+}
+
+.archive-table tr:hover td {
+  background-color: var(--bg-surface-elevated);
+  color: var(--paper-manila);
+}
+
+.archive-repo-link {
+  color: var(--marker-yellow);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.archive-repo-link:hover {
+  text-decoration: underline;
+}
+
 
 /* ==========================================================================
    SECTION 5: CONTACT & CUSTODY SIGN-OFF

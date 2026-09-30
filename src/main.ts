@@ -1,17 +1,21 @@
 import Lenis from 'lenis';
 import { mapOffsetToCurveT } from './logic/scrollMath';
+import { PROFILE } from './data/profile';
+import { computeExhibitHash } from './logic/cryptoHash';
 
 /**
  * CLIENT ORCHESTRATOR
  *
  * Implements:
- * 1. Progressive enhancement: replaces 'no-js' with 'js'
+ * 1. Progressive enhancement: marks document as JavaScript-enabled
  * 2. Instant first paint: 3D scene lazy-loaded asynchronously after initial render
  * 3. Lenis smooth scrolling (disabled if prefers-reduced-motion: reduce)
  * 4. Real DOM section offset tracking (recomputed on resize)
  * 5. 3D Cryptographic Evidence Seal positioning along Catmull-Rom spline
  * 6. Chain of Custody navigation & active stage tracking via CSS classes
- * 7. Hero name redaction bar lift signature reveal
+ * 7. Signature Moment 1: Hero name redaction bar lift
+ * 8. Signature Moment 2: UV-flashlight cursor mask on featured exhibits
+ * 9. Real browser-side Web Crypto SHA-256 exhibit digest calculation
  */
 
 const SECTION_IDS = ['identity', 'credentials', 'skills', 'works', 'contact'];
@@ -49,6 +53,58 @@ function initHeroRedaction(): void {
   setTimeout(() => {
     wrap.classList.add('is-revealed');
   }, 350);
+}
+
+/**
+ * Computes and renders reproducible SHA-256 digests in the browser
+ * for each of the 4 featured exhibits using the Web Crypto API.
+ */
+async function initExhibitsSha256(): Promise<void> {
+  const featured = PROFILE.projects.slice(0, 4);
+
+  for (let i = 0; i < featured.length; i++) {
+    const project = featured[i];
+    const hashEl = document.getElementById(`exhibit-hash-${i}`);
+    if (!hashEl) continue;
+
+    try {
+      const hash = await computeExhibitHash(project);
+      if (hash) {
+        hashEl.textContent = hash;
+      } else {
+        hashEl.textContent = '[Web Crypto API unavailable in current context]';
+      }
+    } catch {
+      hashEl.textContent = '[Web Crypto API unavailable in current context]';
+    }
+  }
+}
+
+/**
+ * Signature Moment 2: UV Flashlight cursor mask
+ * Uses CSSOM element.style.setProperty (rule 7) for strict CSP compatibility.
+ * On touch or prefers-reduced-motion, annotations are displayed statically via CSS.
+ */
+function initUvFlashlight(): void {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+  if (prefersReducedMotion || isTouch) return;
+
+  const cards = document.querySelectorAll<HTMLElement>('.case-file-card');
+  cards.forEach((card) => {
+    card.addEventListener('pointermove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = `${e.clientX - rect.left}px`;
+      const y = `${e.clientY - rect.top}px`;
+      card.style.setProperty('--uv-x', x);
+      card.style.setProperty('--uv-y', y);
+    });
+
+    card.addEventListener('pointerleave', () => {
+      card.style.setProperty('--uv-x', '-500px');
+      card.style.setProperty('--uv-y', '-500px');
+    });
+  });
 }
 
 function setupCustodyObserver(): void {
@@ -151,11 +207,15 @@ function init(): void {
   // 2. Setup hero redaction reveal
   initHeroRedaction();
 
-  // 3. Setup UI observers & navigation
+  // 3. Setup dynamic Web Crypto SHA-256 exhibit digests & UV flashlight
+  initExhibitsSha256();
+  initUvFlashlight();
+
+  // 4. Setup UI observers & navigation
   setupCustodyObserver();
   setupAnchorNavigation();
 
-  // 4. Initialize Smooth Scrolling (Lenis) if motion is permitted
+  // 5. Initialize Smooth Scrolling (Lenis) if motion is permitted
   if (!prefersReducedMotion) {
     lenisInstance = new Lenis({
       duration: 1.1,
@@ -182,7 +242,7 @@ function init(): void {
     });
   }
 
-  // 5. Lazy-load 3D scene after initial paint (satisfies AGENTS.md lazy-load gate)
+  // 6. Lazy-load 3D scene after initial paint (satisfies AGENTS.md lazy-load gate)
   requestAnimationFrame(() => {
     setTimeout(lazyLoadScene, 50);
   });
