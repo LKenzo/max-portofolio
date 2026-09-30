@@ -82,14 +82,14 @@ describe('scrollMath logic tests', () => {
   });
 
   describe('getTravelerScale()', () => {
-    it('returns 0.55 on mobile widths (< 768px)', () => {
-      expect(getTravelerScale(360)).toBe(0.55);
-      expect(getTravelerScale(767)).toBe(0.55);
+    it('returns 0.42 on mobile widths (< 768px)', () => {
+      expect(getTravelerScale(360)).toBe(0.42);
+      expect(getTravelerScale(767)).toBe(0.42);
     });
 
-    it('returns 1.0 on desktop widths (>= 768px)', () => {
-      expect(getTravelerScale(768)).toBe(1.0);
-      expect(getTravelerScale(1440)).toBe(1.0);
+    it('returns 0.65 on desktop widths (>= 768px)', () => {
+      expect(getTravelerScale(768)).toBe(0.65);
+      expect(getTravelerScale(1440)).toBe(0.65);
     });
   });
 

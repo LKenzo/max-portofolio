@@ -123,5 +123,5 @@ export function deriveControlPointYValues(
  * Returns traveler scale based on viewport width (simplifies/scales down on mobile).
  */
 export function getTravelerScale(viewportWidth: number): number {
-  return viewportWidth < 768 ? 0.55 : 1.0;
+  return viewportWidth < 768 ? 0.42 : 0.65;
 }

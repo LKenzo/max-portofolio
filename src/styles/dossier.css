@@ -44,7 +44,7 @@ body {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 5;
+  z-index: 0; /* Render behind all page content */
 }
 
 /* Accessible focus outlines (verified 12.67:1 contrast ratio) */
@@ -69,6 +69,7 @@ a {
   margin: 0 auto;
   padding: 0 var(--space-4);
   position: relative;
+  z-index: 2;
 }
 
 @media (min-width: 640px) {
