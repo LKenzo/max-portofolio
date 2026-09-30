@@ -315,6 +315,27 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  position: relative;
+}
+
+/* Subtle dark scrim behind hero name and statements to ensure zero stream bleed-through */
+.hero-block::before {
+  content: '';
+  position: absolute;
+  inset: -20px -30px;
+  background: radial-gradient(
+    ellipse 90% 80% at 30% 30%,
+    rgba(10, 13, 22, 0.88) 0%,
+    rgba(10, 13, 22, 0.65) 60%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-block > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-meta-row {
@@ -653,19 +674,21 @@ a {
   border: 1px solid var(--border-hairline);
   padding: var(--space-6);
   transition: border-color 0.2s ease;
+  z-index: 2;
 }
 
-/* Card background layer sits at z-index 1 */
+/* Near-opaque background (>= 0.95 alpha) so moving streams never show through the text */
 .case-file-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-color: var(--bg-surface);
+  background-color: rgba(18, 24, 38, 0.98);
+  backdrop-filter: blur(4px);
   z-index: 1;
   pointer-events: none;
 }
 
-/* Card content sits at z-index 3 (above the z-index 2 reveal layer) */
+/* Card content sits at z-index 3 (above card backdrop and stream layer) */
 .case-file-card > * {
   position: relative;
   z-index: 3;
@@ -841,24 +864,23 @@ a {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 2;
+  z-index: 1;
   overflow: hidden;
   opacity: 1;
-  /* Beam = ~300px radius, flat-top with a feathered edge (no bright core),
-     revealing the stream layers at ~0.4 opacity; base opacity 0.08 across full viewport */
+  /* Darker: base opacity <= 0.05 (0.04), in-beam <= 0.3 (0.28) with flat-top feathered beam */
   mask-image: radial-gradient(
     circle 300px at var(--uv-x, -500px) var(--uv-y, -500px),
-    rgba(0, 0, 0, 0.40) 0px,
-    rgba(0, 0, 0, 0.40) 220px,
-    rgba(0, 0, 0, 0.08) 300px,
-    rgba(0, 0, 0, 0.08) 100%
+    rgba(0, 0, 0, 0.28) 0px,
+    rgba(0, 0, 0, 0.28) 180px,
+    rgba(0, 0, 0, 0.04) 300px,
+    rgba(0, 0, 0, 0.04) 100%
   );
   -webkit-mask-image: radial-gradient(
     circle 300px at var(--uv-x, -500px) var(--uv-y, -500px),
-    rgba(0, 0, 0, 0.40) 0px,
-    rgba(0, 0, 0, 0.40) 220px,
-    rgba(0, 0, 0, 0.08) 300px,
-    rgba(0, 0, 0, 0.08) 100%
+    rgba(0, 0, 0, 0.28) 0px,
+    rgba(0, 0, 0, 0.28) 180px,
+    rgba(0, 0, 0, 0.04) 300px,
+    rgba(0, 0, 0, 0.04) 100%
   );
 }
 
@@ -907,13 +929,13 @@ a {
 .uv-stream-pre {
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  line-height: 1.45;
+  line-height: 1.5;
   color: var(--uv-violet);
   text-shadow: none; /* Replace the glow: zero text-shadow */
   user-select: none;
   white-space: pre;
   margin: 0;
-  padding: var(--space-4);
+  padding: 0 var(--space-4); /* Zero vertical padding ensures exact 50% seamless loop */
   width: 100%;
   overflow: hidden;
 }
@@ -938,7 +960,7 @@ a {
   .global-uv-layer {
     mask-image: none !important;
     -webkit-mask-image: none !important;
-    opacity: 0.08 !important;
+    opacity: 0.04 !important;
   }
   .stream-track-a,
   .stream-track-b {
