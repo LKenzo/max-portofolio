@@ -1,6 +1,7 @@
 # CV and certificate files
 Copy of Resume_Maximallian.pdf
 *.pdf
+!public/Max-Frenat-CV.pdf
 TryHackMe_Certif/
 
 # Dependencies
