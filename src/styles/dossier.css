@@ -37,6 +37,16 @@ body {
   position: relative;
 }
 
+/* 3D Scene Traveler Canvas */
+.scene-traveler-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 5;
+}
+
 /* Accessible focus outlines (verified 12.67:1 contrast ratio) */
 :focus-visible {
   outline: 2px solid var(--marker-yellow);
@@ -682,6 +692,16 @@ a {
   left: 0;
   color: var(--marker-yellow);
   font-family: var(--font-mono);
+}
+
+.case-notice {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-muted);
+  border-left: 2px solid var(--border-hairline);
+  padding: 2px var(--space-3);
+  margin-top: var(--space-3);
 }
 
 /* SHA-256 Checksum Container: Non-overlapping, large legible font, verified >=4.5:1 contrast */

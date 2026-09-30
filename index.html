@@ -337,14 +337,17 @@
                 </div>
                 <h3 class="case-title">Mx-Security-Tools</h3>
                 <p class="case-summary">
-                  Multithreaded command-line TCP port scanner written in Python with target IP resolution and port range configuration via argparse, featuring a local mock server for port testing. For authorized security testing and educational environments only.
+                  Multithreaded command-line TCP port scanner written in Python that takes a target IP address and port range configuration via argparse, featuring a local mock server for port testing.
                 </p>
                 <ul class="case-highlights-list">
-                  <li class="case-highlight-item">Multithreaded TCP port scanning across specified port ranges.</li>
-                  <li class="case-highlight-item">Target IP address resolution and command-line argument handling via argparse.</li>
-                  <li class="case-highlight-item">Includes port_testing.py mock server for local scanner verification.</li>
-                  <li class="case-highlight-item">Authorized use only note: intended solely for controlled environments and educational security testing.</li>
+                  <li class="case-highlight-item">Up to 50 worker threads using ThreadPoolExecutor for concurrent port checks.</li>
+                  <li class="case-highlight-item">0.5-second socket connection timeout (socket.settimeout(0.5)).</li>
+                  <li class="case-highlight-item">Single port scanning via -p or inclusive port range scanning via -r.</li>
+                  <li class="case-highlight-item">Includes port_testing.py local mock socket server for scanner verification.</li>
                 </ul>
+                <div class="case-notice font-label">
+                  NOTICE: For authorized security testing and educational environments only.
+                </div>
                 <div class="sha256-container">
                   <div class="sha256-label">SHA-256 of this exhibit's text, computed in your browser:</div>
                   <code class="sha256-hash" id="exhibit-hash-1">[Computing via Web Crypto API...]</code>

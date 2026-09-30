@@ -201,15 +201,16 @@ export const PROFILE: ProfileData = {
       name: 'Mx-Security-Tools',
       repoName: 'Mx-Security-Tools',
       summary:
-        'Multithreaded command-line TCP port scanner written in Python with target IP resolution and port range configuration via argparse, featuring a local mock server for port testing. For authorized security testing and educational environments only.',
+        'Multithreaded command-line TCP port scanner written in Python that takes a target IP address and port range configuration via argparse, featuring a local mock server for port testing.',
       primaryLanguage: 'Python',
       url: 'https://github.com/LKenzo/Mx-Security-Tools',
       highlights: [
-        'Multithreaded TCP port scanning across specified port ranges.',
-        'Target IP address resolution and command-line argument handling via argparse.',
-        'Includes port_testing.py mock server for local scanner verification.',
-        'Authorized use only note: intended solely for controlled environments and educational security testing.',
+        'Up to 50 worker threads using ThreadPoolExecutor for concurrent port checks.',
+        '0.5-second socket connection timeout (socket.settimeout(0.5)).',
+        'Single port scanning via -p or inclusive port range scanning via -r.',
+        'Includes port_testing.py local mock socket server for scanner verification.',
       ],
+      authorizedUseNotice: 'For authorized security testing and educational environments only.',
       source: 'github:Mx-Security-Tools',
     },
     {

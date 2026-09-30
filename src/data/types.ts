@@ -76,6 +76,7 @@ export interface ProjectEntry {
   readonly primaryLanguage: string;
   readonly url: string;
   readonly highlights?: readonly string[];
+  readonly authorizedUseNotice?: string;
   readonly source: DataSource;
 }
 
