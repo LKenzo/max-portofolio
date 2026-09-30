@@ -97,7 +97,6 @@ function initGlobalUvLayerAndCursor(): void {
   const streamADupEl = document.getElementById('uv-stream-a-dup');
   const streamBEl = document.getElementById('uv-stream-b');
   const streamBDupEl = document.getElementById('uv-stream-b-dup');
-  const customCursor = document.getElementById('custom-cursor');
 
   // 1. Populate Layer A: Real UTF-8 bytes from verified profile text
   if (streamAEl && streamADupEl) {
@@ -196,29 +195,6 @@ function initGlobalUvLayerAndCursor(): void {
     requestAnimationFrame(animateLight);
   }
   requestAnimationFrame(animateLight);
-
-  // 4. Exact Pointer Tracking for 4px Dot Cursor
-  if (customCursor) {
-    window.addEventListener('pointermove', (e) => {
-      document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
-      document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
-    });
-
-    // Amendment 2: Hide violet dot over interactive elements so only native pointer shows
-    document.addEventListener('pointerover', (e) => {
-      const target = e.target as HTMLElement | null;
-      if (target && target.closest('a, button, nav, [role="button"], input, textarea, select, .btn')) {
-        customCursor.classList.add('is-hidden');
-      }
-    });
-
-    document.addEventListener('pointerout', (e) => {
-      const target = e.target as HTMLElement | null;
-      if (target && target.closest('a, button, nav, [role="button"], input, textarea, select, .btn')) {
-        customCursor.classList.remove('is-hidden');
-      }
-    });
-  }
 }
 
 function setupCustodyObserver(): void {
