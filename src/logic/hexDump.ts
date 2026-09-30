@@ -1,12 +1,12 @@
 /**
- * REAL UTF-8 HEX DUMP GENERATOR
+ * REAL UTF-8 HEX DUMP & STREAM GENERATORS
  *
  * Encodes actual portfolio text into genuine forensic hex dump lines.
  * Format: 0xOFFSET: B0 B1 B2 ... B15 |ASCII|
- * Zero synthetic or fake data; uses only genuine UTF-8 bytes.
+ * Zero synthetic or fake data; uses only genuine UTF-8 bytes and verified profile records.
  */
 
-export function generateHexDump(sourceText: string, maxLines = 60): string {
+export function generateHexDump(sourceText: string, maxLines = 45): string {
   const encoder = new TextEncoder();
   const bytes = encoder.encode(sourceText);
   const lines: string[] = [];
@@ -42,6 +42,27 @@ export function generateHexDump(sourceText: string, maxLines = 60): string {
     const asciiStr = asciiChars.join('');
 
     lines.push(`${offsetHex}  ${firstHalf}  ${secondHalf}  |${asciiStr}|`);
+  }
+
+  return lines.join('\n');
+}
+
+export interface StreamItem {
+  readonly offset: number;
+  readonly category: string;
+  readonly value: string;
+}
+
+export function generateOffsetStream(items: readonly StreamItem[], maxLines = 45): string {
+  const lines: string[] = [];
+  const count = Math.min(items.length, maxLines);
+
+  for (let i = 0; i < count; i++) {
+    const item = items[i];
+    const offsetHex = '0x' + item.offset.toString(16).padStart(4, '0').toUpperCase();
+    const cat = item.category.padEnd(16, ' ').slice(0, 16);
+    const val = item.value.padEnd(36, ' ').slice(0, 36);
+    lines.push(`${offsetHex}  [${cat}]  ${val}  |LOGGED|`);
   }
 
   return lines.join('\n');

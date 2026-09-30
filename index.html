@@ -17,9 +17,16 @@
     <link rel="stylesheet" href="/src/styles/dossier.css" />
   </head>
   <body>
-    <!-- GLOBAL UV VIEWPORT LAYER (Atmospheric real hex dump + grain + vignette) -->
+    <!-- GLOBAL UV VIEWPORT LAYER (Dual Stream Layers + Grain + Vignette) -->
     <div class="global-uv-layer" id="global-uv-layer" aria-hidden="true">
-      <pre class="uv-hex-dump" id="uv-hex-dump"></pre>
+      <div class="uv-stream-track stream-track-a">
+        <pre class="uv-stream-pre" id="uv-stream-a"></pre>
+        <pre class="uv-stream-pre" id="uv-stream-a-dup"></pre>
+      </div>
+      <div class="uv-stream-track stream-track-b">
+        <pre class="uv-stream-pre" id="uv-stream-b"></pre>
+        <pre class="uv-stream-pre" id="uv-stream-b-dup"></pre>
+      </div>
       <div class="uv-grain-overlay"></div>
       <div class="uv-vignette-overlay"></div>
     </div>

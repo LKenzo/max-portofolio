@@ -2,7 +2,7 @@ import Lenis from 'lenis';
 import { mapOffsetToCurveT } from './logic/scrollMath';
 import { PROFILE } from './data/profile';
 import { computeExhibitHash } from './logic/cryptoHash';
-import { generateHexDump } from './logic/hexDump';
+import { generateHexDump, generateOffsetStream, type StreamItem } from './logic/hexDump';
 
 /**
  * CLIENT ORCHESTRATOR
@@ -15,8 +15,8 @@ import { generateHexDump } from './logic/hexDump';
  * 5. 3D Cryptographic Evidence Seal positioning along Catmull-Rom spline
  * 6. Chain of Custody navigation & active stage tracking via CSS classes
  * 7. Signature Moment 1: Hero name redaction bar lift
- * 8. Signature Moment 2: Global UV viewport layer with real UTF-8 hex dump background
- * 9. Custom UV dot cursor with interactive tightening and native pointer fallback
+ * 8. Signature Moment 2: Dual full-viewport stream background with lerped UV flashlight
+ * 9. Tiny 4px dot custom cursor with native pointer restoration on interactive elements
  * 10. Real browser-side Web Crypto SHA-256 exhibit digest calculation
  */
 
@@ -83,19 +83,21 @@ async function initExhibitsSha256(): Promise<void> {
 }
 
 /**
- * Signature Moment 2: Global UV Viewport Layer & Custom Cursor
- * - Populates genuine UTF-8 bytes from verified portfolio text as authentic hex dump
- * - Uses rAF-throttled CSSOM element.style.setProperty for strict CSP compliance
- * - Custom violet dot cursor with soft glow; tightens on hover over interactive elements
- * - Static faint presentation on touch and prefers-reduced-motion
+ * Signature Moment 2: Dual Stream Background Layers & Lerped UV Flashlight
+ * - Layer A: Real UTF-8 bytes scrolling upward in infinite loop
+ * - Layer B: Offset stream of verified records and hashes scrolling downward
+ * - Soft radial gradient (radius ~200px, peak opacity <= 0.12) with smooth lerp lag
+ * - Tiny 4px cursor hidden over interactive elements where native pointer returns
  */
 function initGlobalUvLayerAndCursor(): void {
-  const uvDumpEl = document.getElementById('uv-hex-dump');
-  const globalUvLayer = document.getElementById('global-uv-layer');
+  const streamAEl = document.getElementById('uv-stream-a');
+  const streamADupEl = document.getElementById('uv-stream-a-dup');
+  const streamBEl = document.getElementById('uv-stream-b');
+  const streamBDupEl = document.getElementById('uv-stream-b-dup');
   const customCursor = document.getElementById('custom-cursor');
 
-  // 1. Populate real UTF-8 bytes from verified profile text
-  if (uvDumpEl) {
+  // 1. Populate Layer A: Real UTF-8 bytes from verified profile text
+  if (streamAEl && streamADupEl) {
     const rawText = [
       PROFILE.identity.fullName,
       PROFILE.identity.headline,
@@ -106,60 +108,95 @@ function initGlobalUvLayerAndCursor(): void {
       ...PROFILE.projects.map((p) => `${p.name}: ${p.summary}`),
     ].join('\n');
 
-    uvDumpEl.textContent = generateHexDump(rawText, 70);
+    const dumpA = generateHexDump(rawText, 45);
+    streamAEl.textContent = dumpA;
+    streamADupEl.textContent = dumpA;
+  }
+
+  // 2. Populate Layer B: Real section stages, repositories, and hashes
+  if (streamBEl && streamBDupEl) {
+    const streamBItems: StreamItem[] = [
+      { offset: 0x0000, category: 'STAGE 01', value: 'INTAKE & COLLECTION' },
+      { offset: 0x0020, category: 'IDENTITY', value: 'MAX FRENAT // BINUS' },
+      { offset: 0x0040, category: 'STAGE 02', value: 'CREDENTIALS LOGGED' },
+      { offset: 0x0060, category: 'ACADEMIC', value: 'B.CS CYBERSECURITY (GPA 3.63)' },
+      { offset: 0x0080, category: 'CERTIF', value: 'FORTINET FCF CYBERSECURITY' },
+      { offset: 0x00a0, category: 'STAGE 03', value: 'TOOLKIT AUDIT' },
+      { offset: 0x00c0, category: 'BIN-TOOLS', value: 'XXD, GHIDRA, GDB, RADARE2' },
+      { offset: 0x00e0, category: 'NET-TOOLS', value: 'WIRESHARK, TSHARK, OPENSSL' },
+      { offset: 0x0100, category: 'STAGE 04', value: 'EXHIBIT INSPECTION' },
+      ...PROFILE.projects.map((p, idx) => ({
+        offset: 0x0120 + idx * 0x20,
+        category: `EXHIBIT ${String.fromCharCode(65 + idx)}`,
+        value: p.name.toUpperCase(),
+      })),
+      { offset: 0x0200, category: 'STAGE 05', value: 'CUSTODY SIGN-OFF' },
+      { offset: 0x0220, category: 'STATUS', value: 'VERIFIED CUSTODY TRANSFER' },
+    ];
+
+    const dumpB = generateOffsetStream(streamBItems, 45);
+    streamBEl.textContent = dumpB;
+    streamBDupEl.textContent = dumpB;
   }
 
   const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (!isFinePointer || prefersReducedMotion) {
-    // Touch or reduced motion: static presentation handled gracefully by CSS
     return;
   }
 
-  // 2. rAF-throttled pointer tracking via CSSOM setProperty (rule 7)
-  let pendingX = -500;
-  let pendingY = -500;
-  let rafPending = false;
+  // 3. Smooth Lerped Light Tracking (slight physical lag ~0.12)
+  let targetX = -500;
+  let targetY = -500;
+  let currentX = -500;
+  let currentY = -500;
+  const LERP_FACTOR = 0.12;
 
   window.addEventListener('pointermove', (e) => {
-    pendingX = e.clientX;
-    pendingY = e.clientY;
-
-    if (!rafPending) {
-      rafPending = true;
-      requestAnimationFrame(() => {
-        document.documentElement.style.setProperty('--uv-x', `${pendingX}px`);
-        document.documentElement.style.setProperty('--uv-y', `${pendingY}px`);
-        if (globalUvLayer && !globalUvLayer.classList.contains('is-active')) {
-          globalUvLayer.classList.add('is-active');
-        }
-        rafPending = false;
-      });
+    targetX = e.clientX;
+    targetY = e.clientY;
+    if (currentX === -500) {
+      currentX = targetX;
+      currentY = targetY;
     }
   });
 
   window.addEventListener('pointerleave', () => {
-    document.documentElement.style.setProperty('--uv-x', '-500px');
-    document.documentElement.style.setProperty('--uv-y', '-500px');
-    if (globalUvLayer) {
-      globalUvLayer.classList.remove('is-active');
-    }
+    targetX = -500;
+    targetY = -500;
   });
 
-  // 3. Custom cursor interactive element detection (glow tightens, native pointer returns)
+  function animateLight(): void {
+    currentX += (targetX - currentX) * LERP_FACTOR;
+    currentY += (targetY - currentY) * LERP_FACTOR;
+
+    document.documentElement.style.setProperty('--uv-x', `${currentX.toFixed(1)}px`);
+    document.documentElement.style.setProperty('--uv-y', `${currentY.toFixed(1)}px`);
+
+    requestAnimationFrame(animateLight);
+  }
+  requestAnimationFrame(animateLight);
+
+  // 4. Exact Pointer Tracking for 4px Dot Cursor
   if (customCursor) {
+    window.addEventListener('pointermove', (e) => {
+      document.documentElement.style.setProperty('--cursor-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--cursor-y', `${e.clientY}px`);
+    });
+
+    // Amendment 2: Hide violet dot over interactive elements so only native pointer shows
     document.addEventListener('pointerover', (e) => {
       const target = e.target as HTMLElement | null;
       if (target && target.closest('a, button, nav, [role="button"], input, textarea, select, .btn')) {
-        customCursor.classList.add('is-hovering');
+        customCursor.classList.add('is-hidden');
       }
     });
 
     document.addEventListener('pointerout', (e) => {
       const target = e.target as HTMLElement | null;
       if (target && target.closest('a, button, nav, [role="button"], input, textarea, select, .btn')) {
-        customCursor.classList.remove('is-hovering');
+        customCursor.classList.remove('is-hidden');
       }
     });
   }

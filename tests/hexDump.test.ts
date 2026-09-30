@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateHexDump } from '../src/logic/hexDump';
+import { generateHexDump, generateOffsetStream } from '../src/logic/hexDump';
 
 describe('hexDump logic tests', () => {
   it('generates genuine hex dump format with 0x offsets and real UTF-8 bytes', () => {
@@ -26,5 +26,19 @@ describe('hexDump logic tests', () => {
     const dump = generateHexDump(longText, 5);
     const lines = dump.split('\n');
     expect(lines.length).toBe(5);
+  });
+
+  describe('generateOffsetStream()', () => {
+    it('formats offset column, category, and value with authentic 0x offsets', () => {
+      const items = [
+        { offset: 0, category: 'STAGE 01', value: 'INTAKE & COLLECTION' },
+        { offset: 32, category: 'STAGE 02', value: 'CREDENTIALS LOGGED' },
+      ];
+      const stream = generateOffsetStream(items);
+      const lines = stream.split('\n');
+      expect(lines).toHaveLength(2);
+      expect(lines[0]).toContain('0x0000  [STAGE 01        ]  INTAKE & COLLECTION');
+      expect(lines[1]).toContain('0x0020  [STAGE 02        ]  CREDENTIALS LOGGED');
+    });
   });
 });

@@ -752,45 +752,71 @@ a {
   pointer-events: none;
   z-index: 1;
   overflow: hidden;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+  opacity: 1;
+  /* Large soft radial gradient: radius ~200px, peak opacity <= 0.12, no bright core */
   mask-image: radial-gradient(
-    circle 260px at var(--uv-x, -500px) var(--uv-y, -500px),
-    black 20%,
-    transparent 100%
+    circle 200px at var(--uv-x, -500px) var(--uv-y, -500px),
+    rgba(0, 0, 0, 0.12) 0%,
+    rgba(0, 0, 0, 0.08) 45%,
+    rgba(0, 0, 0, 0.03) 80%,
+    rgba(0, 0, 0, 0.02) 100%
   );
   -webkit-mask-image: radial-gradient(
-    circle 260px at var(--uv-x, -500px) var(--uv-y, -500px),
-    black 20%,
-    transparent 100%
+    circle 200px at var(--uv-x, -500px) var(--uv-y, -500px),
+    rgba(0, 0, 0, 0.12) 0%,
+    rgba(0, 0, 0, 0.08) 45%,
+    rgba(0, 0, 0, 0.03) 80%,
+    rgba(0, 0, 0, 0.02) 100%
   );
 }
 
-/* Visible when JS tracks active pointer */
-.js .global-uv-layer.is-active {
-  opacity: 0.85;
+.uv-stream-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
 }
 
-.uv-hex-dump {
-  position: absolute;
-  inset: 0;
+.stream-track-a {
+  animation: streamScrollUp 65s linear infinite;
+  will-change: transform;
+}
+
+.stream-track-b {
+  animation: streamScrollDown 48s linear infinite;
+  will-change: transform;
+  left: 52%;
+}
+
+@keyframes streamScrollUp {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-50%); }
+}
+
+@keyframes streamScrollDown {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
+.uv-stream-pre {
   font-family: var(--font-mono);
   font-size: 0.75rem;
   line-height: 1.45;
   color: var(--uv-violet);
   text-shadow: 0 0 10px var(--uv-violet-glow);
-  opacity: 0.45;
   user-select: none;
   white-space: pre;
-  overflow: hidden;
-  padding: var(--space-4);
   margin: 0;
+  padding: var(--space-4);
 }
 
 .uv-grain-overlay {
   position: absolute;
   inset: 0;
-  opacity: 0.035;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
   pointer-events: none;
 }
@@ -798,19 +824,20 @@ a {
 .uv-vignette-overlay {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 45%, rgba(10, 13, 22, 0.75) 100%);
+  background: radial-gradient(circle at center, transparent 45%, rgba(10, 13, 22, 0.7) 100%);
   pointer-events: none;
 }
 
-/* User requirement: Static faint version on touch and prefers-reduced-motion */
+/* User requirement: No animation under prefers-reduced-motion; static faint layers on touch */
 @media (hover: none) and (pointer: coarse), (prefers-reduced-motion: reduce) {
   .global-uv-layer {
-    opacity: 0.15 !important;
     mask-image: none !important;
     -webkit-mask-image: none !important;
+    opacity: 0.035 !important;
   }
-  .uv-hex-dump {
-    opacity: 0.2;
+  .stream-track-a,
+  .stream-track-b {
+    animation: none !important;
   }
 }
 
