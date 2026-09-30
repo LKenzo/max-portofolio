@@ -730,6 +730,21 @@ a {
   margin-top: var(--space-3);
 }
 
+/* Latent Forensic Metadata Annotation (Item 3) */
+.case-annotation {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  color: var(--uv-violet);
+  background: rgba(168, 85, 247, 0.06);
+  border: 1px dashed var(--border-uv);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+  opacity: 0.12;
+  transition: opacity 0.25s ease;
+  user-select: text;
+}
+
 /* SHA-256 Checksum Container: Non-overlapping, large legible font, verified >=4.5:1 contrast */
 .sha256-container {
   margin-top: var(--space-5);
@@ -750,20 +765,50 @@ a {
   letter-spacing: 0.04em;
   line-height: 1.4;
   text-transform: uppercase;
+  opacity: 1; /* Always fully visible */
 }
 
+/* SHA-256 Hash: larger font ~1.1rem, dim outside beam (~0.12 opacity), real DOM text */
 .sha256-hash {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: 1.6;
+  font-size: 1.1rem;
+  line-height: 1.5;
   color: var(--marker-yellow);
   word-break: break-all;
   overflow-wrap: anywhere;
   display: block;
-  letter-spacing: 0.03em;
-  background: rgba(18, 24, 38, 0.6);
-  padding: var(--space-2) var(--space-3);
+  letter-spacing: 0.04em;
+  background: rgba(18, 24, 38, 0.7);
+  padding: var(--space-3);
   border: 1px solid var(--border-hairline);
+  opacity: 0.12; /* Dim outside the beam */
+  transition: opacity 0.25s ease;
+}
+
+/* Revealed inside the beam, on hover, or on keyboard focus (:focus-within) */
+.case-file-card.is-illuminated .case-annotation,
+.case-file-card:hover .case-annotation,
+.case-file-card:focus-within .case-annotation {
+  opacity: 1;
+}
+
+.case-file-card.is-illuminated .sha256-hash,
+.case-file-card:hover .sha256-hash,
+.case-file-card:focus-within .sha256-hash {
+  opacity: 1;
+}
+
+/* Static full visibility on touch, prefers-reduced-motion, and no-js */
+.no-js .case-annotation,
+.no-js .sha256-hash {
+  opacity: 1 !important;
+}
+
+@media (hover: none) and (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .case-annotation,
+  .sha256-hash {
+    opacity: 1 !important;
+  }
 }
 
 /* ==========================================================================

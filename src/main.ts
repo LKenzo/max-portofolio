@@ -170,12 +170,28 @@ function initGlobalUvLayerAndCursor(): void {
     targetY = -500;
   });
 
+  const exhibitCards = Array.from(document.querySelectorAll<HTMLElement>('.case-file-card'));
+
   function animateLight(): void {
     currentX += (targetX - currentX) * LERP_FACTOR;
     currentY += (targetY - currentY) * LERP_FACTOR;
 
     document.documentElement.style.setProperty('--uv-x', `${currentX.toFixed(1)}px`);
     document.documentElement.style.setProperty('--uv-y', `${currentY.toFixed(1)}px`);
+
+    // Check ~300px beam radius against exhibit cards to reveal SHA-256 and annotations
+    for (let i = 0; i < exhibitCards.length; i++) {
+      const card = exhibitCards[i];
+      const rect = card.getBoundingClientRect();
+      const nearX = Math.max(rect.left, Math.min(currentX, rect.right));
+      const nearY = Math.max(rect.top, Math.min(currentY, rect.bottom));
+      const dist = Math.hypot(currentX - nearX, currentY - nearY);
+      if (dist <= 300) {
+        card.classList.add('is-illuminated');
+      } else {
+        card.classList.remove('is-illuminated');
+      }
+    }
 
     requestAnimationFrame(animateLight);
   }
