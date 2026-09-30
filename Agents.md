@@ -44,3 +44,11 @@ Atomic commits, one concern each, conventional prefixes only: feat, fix, docs, s
 
 ## Process
 Planning first; wait for my approval at each gate. After each milestone report what you built, what you would critique, and what I should test manually. No features beyond scope without asking.
+
+## Backlog (do not start)
+- Staged text-reveal and scramble-settle animation
+- SHA-256 "resolving" animation
+- EXHIBIT stamp animation
+- Card tilt
+- Border draw-on
+All must respect prefers-reduced-motion.
