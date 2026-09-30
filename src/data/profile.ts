@@ -14,9 +14,9 @@ export const PROFILE: ProfileData = {
   identity: {
     displayName: 'Max Frenat',
     fullName: 'Maximillian Delavega Adiwinata Frenat',
-    headline: 'Cyber Security Student',
+    headline: 'Cybersecurity Student',
     backgroundSummary:
-      'Cyber Security student at BINUS University with a strong foundation in algorithmic problem solving and web exploitation. Active CTF competitor with practical experience in vulnerability research and technical writing. Experienced in intensive technical training environments, covering full-stack development and low-level programming in C and Java.',
+      'Cybersecurity student at BINUS University with practical coursework in algorithmic problem solving and web exploitation. Active CTF competitor with experience in challenge writeups and technical documentation.',
     location: 'Jakarta, Indonesia',
     emailPendingConfirmation: null,
     links: [
@@ -39,7 +39,7 @@ export const PROFILE: ProfileData = {
   education: [
     {
       institution: 'BINUS University',
-      degree: 'Bachelor of Computer Science (Cyber Security)',
+      degree: 'Bachelor of Computer Science (Cybersecurity)',
       gpa: '3.63/4.00',
       period: 'Aug 2024 - Present',
       location: 'Jakarta, Indonesia',
@@ -245,7 +245,7 @@ export const PROFILE: ProfileData = {
       name: 'TryHackMe Notes',
       repoName: 'tryhackme-notes',
       summary:
-        'Repository housing learning notes and hands-on laboratory walkthroughs across TryHackMe paths (Cyber Security 101, Web Fundamentals).',
+        'Repository housing learning notes and hands-on laboratory walkthroughs across TryHackMe paths (Cybersecurity 101, Web Fundamentals).',
       primaryLanguage: 'Markdown',
       url: 'https://github.com/LKenzo/tryhackme-notes',
       highlights: [

@@ -2,6 +2,7 @@ import Lenis from 'lenis';
 import { mapOffsetToCurveT } from './logic/scrollMath';
 import { PROFILE } from './data/profile';
 import { computeExhibitHash } from './logic/cryptoHash';
+import { generateHexDump } from './logic/hexDump';
 
 /**
  * CLIENT ORCHESTRATOR
@@ -14,8 +15,9 @@ import { computeExhibitHash } from './logic/cryptoHash';
  * 5. 3D Cryptographic Evidence Seal positioning along Catmull-Rom spline
  * 6. Chain of Custody navigation & active stage tracking via CSS classes
  * 7. Signature Moment 1: Hero name redaction bar lift
- * 8. Signature Moment 2: UV-flashlight cursor mask on featured exhibits
- * 9. Real browser-side Web Crypto SHA-256 exhibit digest calculation
+ * 8. Signature Moment 2: Global UV viewport layer with real UTF-8 hex dump background
+ * 9. Custom UV dot cursor with interactive tightening and native pointer fallback
+ * 10. Real browser-side Web Crypto SHA-256 exhibit digest calculation
  */
 
 const SECTION_IDS = ['identity', 'credentials', 'skills', 'works', 'contact'];
@@ -81,30 +83,86 @@ async function initExhibitsSha256(): Promise<void> {
 }
 
 /**
- * Signature Moment 2: UV Flashlight cursor mask
- * Uses CSSOM element.style.setProperty (rule 7) for strict CSP compatibility.
- * On touch or prefers-reduced-motion, annotations are displayed statically via CSS.
+ * Signature Moment 2: Global UV Viewport Layer & Custom Cursor
+ * - Populates genuine UTF-8 bytes from verified portfolio text as authentic hex dump
+ * - Uses rAF-throttled CSSOM element.style.setProperty for strict CSP compliance
+ * - Custom violet dot cursor with soft glow; tightens on hover over interactive elements
+ * - Static faint presentation on touch and prefers-reduced-motion
  */
-function initUvFlashlight(): void {
+function initGlobalUvLayerAndCursor(): void {
+  const uvDumpEl = document.getElementById('uv-hex-dump');
+  const globalUvLayer = document.getElementById('global-uv-layer');
+  const customCursor = document.getElementById('custom-cursor');
+
+  // 1. Populate real UTF-8 bytes from verified profile text
+  if (uvDumpEl) {
+    const rawText = [
+      PROFILE.identity.fullName,
+      PROFILE.identity.headline,
+      PROFILE.identity.location,
+      PROFILE.identity.backgroundSummary,
+      ...PROFILE.education.map((e) => `${e.institution} - ${e.degree} (GPA ${e.gpa})`),
+      ...PROFILE.certifications.map((c) => `${c.name} by ${c.issuer}`),
+      ...PROFILE.projects.map((p) => `${p.name}: ${p.summary}`),
+    ].join('\n');
+
+    uvDumpEl.textContent = generateHexDump(rawText, 70);
+  }
+
+  const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isTouch = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
-  if (prefersReducedMotion || isTouch) return;
 
-  const cards = document.querySelectorAll<HTMLElement>('.case-file-card');
-  cards.forEach((card) => {
-    card.addEventListener('pointermove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = `${e.clientX - rect.left}px`;
-      const y = `${e.clientY - rect.top}px`;
-      card.style.setProperty('--uv-x', x);
-      card.style.setProperty('--uv-y', y);
-    });
+  if (!isFinePointer || prefersReducedMotion) {
+    // Touch or reduced motion: static presentation handled gracefully by CSS
+    return;
+  }
 
-    card.addEventListener('pointerleave', () => {
-      card.style.setProperty('--uv-x', '-500px');
-      card.style.setProperty('--uv-y', '-500px');
-    });
+  // 2. rAF-throttled pointer tracking via CSSOM setProperty (rule 7)
+  let pendingX = -500;
+  let pendingY = -500;
+  let rafPending = false;
+
+  window.addEventListener('pointermove', (e) => {
+    pendingX = e.clientX;
+    pendingY = e.clientY;
+
+    if (!rafPending) {
+      rafPending = true;
+      requestAnimationFrame(() => {
+        document.documentElement.style.setProperty('--uv-x', `${pendingX}px`);
+        document.documentElement.style.setProperty('--uv-y', `${pendingY}px`);
+        if (globalUvLayer && !globalUvLayer.classList.contains('is-active')) {
+          globalUvLayer.classList.add('is-active');
+        }
+        rafPending = false;
+      });
+    }
   });
+
+  window.addEventListener('pointerleave', () => {
+    document.documentElement.style.setProperty('--uv-x', '-500px');
+    document.documentElement.style.setProperty('--uv-y', '-500px');
+    if (globalUvLayer) {
+      globalUvLayer.classList.remove('is-active');
+    }
+  });
+
+  // 3. Custom cursor interactive element detection (glow tightens, native pointer returns)
+  if (customCursor) {
+    document.addEventListener('pointerover', (e) => {
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('a, button, nav, [role="button"], input, textarea, select, .btn')) {
+        customCursor.classList.add('is-hovering');
+      }
+    });
+
+    document.addEventListener('pointerout', (e) => {
+      const target = e.target as HTMLElement | null;
+      if (target && target.closest('a, button, nav, [role="button"], input, textarea, select, .btn')) {
+        customCursor.classList.remove('is-hovering');
+      }
+    });
+  }
 }
 
 function setupCustodyObserver(): void {
@@ -207,15 +265,17 @@ function init(): void {
   // 2. Setup hero redaction reveal
   initHeroRedaction();
 
-  // 3. Setup dynamic Web Crypto SHA-256 exhibit digests & UV flashlight
+  // 3. Setup dynamic Web Crypto SHA-256 exhibit digests
   initExhibitsSha256();
-  initUvFlashlight();
 
-  // 4. Setup UI observers & navigation
+  // 4. Setup Global UV Viewport Layer & Custom Cursor
+  initGlobalUvLayerAndCursor();
+
+  // 5. Setup UI observers & navigation
   setupCustodyObserver();
   setupAnchorNavigation();
 
-  // 5. Initialize Smooth Scrolling (Lenis) if motion is permitted
+  // 6. Initialize Smooth Scrolling (Lenis) if motion is permitted
   if (!prefersReducedMotion) {
     lenisInstance = new Lenis({
       duration: 1.1,
@@ -242,7 +302,7 @@ function init(): void {
     });
   }
 
-  // 6. Lazy-load 3D scene after initial paint (satisfies AGENTS.md lazy-load gate)
+  // 7. Lazy-load 3D scene after initial paint (satisfies AGENTS.md lazy-load gate)
   requestAnimationFrame(() => {
     setTimeout(lazyLoadScene, 50);
   });

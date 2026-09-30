@@ -17,6 +17,16 @@
     <link rel="stylesheet" href="/src/styles/dossier.css" />
   </head>
   <body>
+    <!-- GLOBAL UV VIEWPORT LAYER (Atmospheric real hex dump + grain + vignette) -->
+    <div class="global-uv-layer" id="global-uv-layer" aria-hidden="true">
+      <pre class="uv-hex-dump" id="uv-hex-dump"></pre>
+      <div class="uv-grain-overlay"></div>
+      <div class="uv-vignette-overlay"></div>
+    </div>
+
+    <!-- CUSTOM UV DOT CURSOR (hover: hover & pointer: fine only) -->
+    <div class="custom-cursor" id="custom-cursor" aria-hidden="true"></div>
+
     <!-- MAIN DOSSIER DOCUMENT -->
     <div class="dossier-frame">
       <!-- Top Chain of Custody Header -->
@@ -88,7 +98,7 @@
             </div>
 
             <p class="hero-statement">
-              Cyber Security student at BINUS University with a strong foundation in algorithmic problem solving and web exploitation. Active CTF competitor with practical experience in vulnerability research and technical writing.
+              Cybersecurity student at BINUS University with practical coursework in algorithmic problem solving and web exploitation. Active CTF competitor with experience in challenge writeups and technical documentation.
             </p>
 
             <!-- Quiet Forensic Facts Row (Not telemetry blocks) -->
@@ -99,7 +109,7 @@
               </div>
               <div class="fact-item">
                 <span class="fact-label">ACADEMIC PROGRAM</span>
-                <span class="fact-value">CS (Cyber Security)</span>
+                <span class="fact-value">CS (Cybersecurity)</span>
               </div>
               <div class="fact-item">
                 <span class="fact-label">CERTIFICATION</span>
@@ -127,7 +137,7 @@
               <!-- BINUS University -->
               <article class="record-card">
                 <div class="record-header">
-                  <h3 class="record-title">Bachelor of Computer Science (Cyber Security)</h3>
+                  <h3 class="record-title">Bachelor of Computer Science (Cybersecurity)</h3>
                   <span class="stamp">GPA 3.63 / 4.00</span>
                 </div>
                 <div class="record-institution">BINUS University &middot; Aug 2024 &ndash; Present</div>
@@ -315,11 +325,6 @@
                   <div class="sha256-label">SHA-256 of this exhibit's text, computed in your browser:</div>
                   <code class="sha256-hash" id="exhibit-hash-0">[Computing via Web Crypto API...]</code>
                 </div>
-                <div class="uv-latent-layer" aria-hidden="true">
-                  <div class="uv-annotation-box">
-                    <span class="uv-tag">LATENT UV RECORD</span> &bull; <span>SOURCE: github:Cybersecurity-Journey</span> &bull; <span>FOCUS: FILE ANALYSIS &amp; CTF WRITEUPS</span>
-                  </div>
-                </div>
               </article>
 
               <!-- EXHIBIT B -->
@@ -344,11 +349,6 @@
                   <div class="sha256-label">SHA-256 of this exhibit's text, computed in your browser:</div>
                   <code class="sha256-hash" id="exhibit-hash-1">[Computing via Web Crypto API...]</code>
                 </div>
-                <div class="uv-latent-layer" aria-hidden="true">
-                  <div class="uv-annotation-box">
-                    <span class="uv-tag">LATENT UV RECORD</span> &bull; <span>SOURCE: github:Mx-Security-Tools</span> &bull; <span>ROLE: TCP PORT SCANNER</span>
-                  </div>
-                </div>
               </article>
 
               <!-- EXHIBIT C -->
@@ -371,11 +371,6 @@
                 <div class="sha256-container">
                   <div class="sha256-label">SHA-256 of this exhibit's text, computed in your browser:</div>
                   <code class="sha256-hash" id="exhibit-hash-2">[Computing via Web Crypto API...]</code>
-                </div>
-                <div class="uv-latent-layer" aria-hidden="true">
-                  <div class="uv-annotation-box">
-                    <span class="uv-tag">LATENT UV RECORD</span> &bull; <span>SOURCE: github:Python-Journey</span> &bull; <span>TEST FRAMEWORK: pytest</span>
-                  </div>
                 </div>
               </article>
 
@@ -400,11 +395,6 @@
                 <div class="sha256-container">
                   <div class="sha256-label">SHA-256 of this exhibit's text, computed in your browser:</div>
                   <code class="sha256-hash" id="exhibit-hash-3">[Computing via Web Crypto API...]</code>
-                </div>
-                <div class="uv-latent-layer" aria-hidden="true">
-                  <div class="uv-annotation-box">
-                    <span class="uv-tag">LATENT UV RECORD</span> &bull; <span>SOURCE: github:Social-Media-Project</span> &bull; <span>STACK: React / NestJS / Prisma</span>
-                  </div>
                 </div>
               </article>
             </div>

@@ -684,102 +684,148 @@ a {
   font-family: var(--font-mono);
 }
 
-/* SHA-256 Checksum Container */
+/* SHA-256 Checksum Container: Non-overlapping, large legible font, verified >=4.5:1 contrast */
 .sha256-container {
-  margin-top: var(--space-4);
-  padding: var(--space-3);
+  margin-top: var(--space-5);
+  padding: var(--space-4);
   background-color: var(--bg-canvas);
   border: 1px solid var(--border-hairline);
-  font-size: 0.75rem;
+  border-left: 2px solid var(--marker-yellow);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
 }
 
 .sha256-label {
   font-family: var(--font-label);
-  color: var(--ink-muted);
-  margin-bottom: var(--space-1);
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+  text-transform: uppercase;
 }
 
 .sha256-hash {
   font-family: var(--font-mono);
+  font-size: 0.875rem;
+  line-height: 1.6;
   color: var(--marker-yellow);
   word-break: break-all;
+  overflow-wrap: anywhere;
   display: block;
+  letter-spacing: 0.03em;
+  background: rgba(18, 24, 38, 0.6);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border-hairline);
 }
 
 /* ==========================================================================
-   SIGNATURE MOMENT 2: UV-FLASHLIGHT CURSOR MASK ON EXHIBITS
+   SIGNATURE MOMENT 2: GLOBAL UV-FLASHLIGHT VIEWPORT LAYER
    ========================================================================== */
 
-/* Latent annotation layer: revealed by cursor UV mask */
-.uv-latent-layer {
-  position: absolute;
+.global-uv-layer {
+  position: fixed;
   inset: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  border-radius: var(--radius-sm);
-  background: radial-gradient(
-    circle 150px at var(--uv-x, -500px) var(--uv-y, -500px),
-    rgba(168, 85, 247, 0.12),
-    transparent 70%
-  );
+  z-index: 1;
+  overflow: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease;
   mask-image: radial-gradient(
-    circle 150px at var(--uv-x, -500px) var(--uv-y, -500px),
-    black 30%,
+    circle 260px at var(--uv-x, -500px) var(--uv-y, -500px),
+    black 20%,
     transparent 100%
   );
   -webkit-mask-image: radial-gradient(
-    circle 150px at var(--uv-x, -500px) var(--uv-y, -500px),
-    black 30%,
+    circle 260px at var(--uv-x, -500px) var(--uv-y, -500px),
+    black 20%,
     transparent 100%
   );
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  padding: var(--space-6);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  border: 1px solid var(--border-uv);
-  z-index: 3;
 }
 
-.case-file-card:hover .uv-latent-layer {
-  opacity: 1;
+/* Visible when JS tracks active pointer */
+.js .global-uv-layer.is-active {
+  opacity: 0.85;
 }
 
-.uv-annotation-box {
-  background-color: rgba(18, 24, 38, 0.95);
-  border: 1px solid var(--uv-violet);
-  padding: var(--space-2) var(--space-3);
-  font-family: var(--font-label);
+.uv-hex-dump {
+  position: absolute;
+  inset: 0;
+  font-family: var(--font-mono);
   font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  color: var(--paper-manila);
-  box-shadow: 0 0 15px var(--uv-violet-glow);
-  width: fit-content;
-}
-
-.uv-tag {
+  line-height: 1.45;
   color: var(--uv-violet);
-  font-weight: 700;
+  text-shadow: 0 0 10px var(--uv-violet-glow);
+  opacity: 0.45;
+  user-select: none;
+  white-space: pre;
+  overflow: hidden;
+  padding: var(--space-4);
+  margin: 0;
 }
 
-/* User requirement: On touch and prefers-reduced-motion, show annotations statically instead of hiding them */
+.uv-grain-overlay {
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.uv-vignette-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 45%, rgba(10, 13, 22, 0.75) 100%);
+  pointer-events: none;
+}
+
+/* User requirement: Static faint version on touch and prefers-reduced-motion */
 @media (hover: none) and (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .uv-latent-layer {
-    position: static;
-    opacity: 1;
-    background: transparent;
-    border: none;
-    border-top: 1px dashed var(--border-uv);
-    padding: var(--space-3) 0 0 0;
-    margin-top: var(--space-4);
+  .global-uv-layer {
+    opacity: 0.15 !important;
     mask-image: none !important;
     -webkit-mask-image: none !important;
   }
+  .uv-hex-dump {
+    opacity: 0.2;
+  }
+}
 
-  .uv-annotation-box {
-    background-color: var(--bg-canvas);
-    border: 1px solid var(--border-hairline);
-    box-shadow: none;
+/* ==========================================================================
+   CUSTOM UV DOT CURSOR
+   ========================================================================== */
+
+.custom-cursor {
+  display: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .js .custom-cursor {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 6px;
+    background-color: var(--uv-violet);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    box-shadow: 0 0 16px 5px rgba(168, 85, 247, 0.55);
+    transform: translate3d(calc(var(--uv-x, -500px) - 3px), calc(var(--uv-y, -500px) - 3px), 0);
+    transition: width 0.15s ease, height 0.15s ease, box-shadow 0.15s ease;
+    will-change: transform;
+  }
+
+  /* Interactive hover state: glow tightens, native pointer cursor returns */
+  .js .custom-cursor.is-hovering {
+    width: 4px;
+    height: 4px;
+    transform: translate3d(calc(var(--uv-x, -500px) - 2px), calc(var(--uv-y, -500px) - 2px), 0);
+    box-shadow: 0 0 8px 2px rgba(168, 85, 247, 0.75);
   }
 }
 
