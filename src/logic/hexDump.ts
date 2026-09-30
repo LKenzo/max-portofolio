@@ -6,19 +6,30 @@
  * Zero synthetic or fake data; uses only genuine UTF-8 bytes and verified profile records.
  */
 
-export function generateHexDump(sourceText: string, maxLines = 45): string {
+export function generateHexDump(sourceText: string, maxLines = 45, loopToFill = false): string {
   const encoder = new TextEncoder();
   const bytes = encoder.encode(sourceText);
+  if (bytes.length === 0) return '';
   const lines: string[] = [];
   const bytesPerLine = 16;
-  const totalLines = Math.min(Math.ceil(bytes.length / bytesPerLine), maxLines);
+  const chunkCount = Math.ceil(bytes.length / bytesPerLine);
+  const totalLines = loopToFill ? maxLines : Math.min(chunkCount, maxLines);
 
   for (let lineIdx = 0; lineIdx < totalLines; lineIdx++) {
     const offset = lineIdx * bytesPerLine;
-    const chunk = bytes.slice(offset, offset + bytesPerLine);
+    const byteStart = (lineIdx * bytesPerLine) % bytes.length;
+    const chunk: number[] = [];
+    for (let i = 0; i < bytesPerLine; i++) {
+      if (loopToFill) {
+        chunk.push(bytes[(byteStart + i) % bytes.length]);
+      } else {
+        const idx = offset + i;
+        if (idx < bytes.length) chunk.push(bytes[idx]);
+      }
+    }
 
     // 1. Offset in 0x0000 format
-    const offsetHex = '0x' + offset.toString(16).padStart(4, '0').toUpperCase();
+    const offsetHex = '0x' + (offset % 0x10000).toString(16).padStart(4, '0').toUpperCase();
 
     // 2. Hex byte columns
     const hexBytes: string[] = [];
@@ -53,13 +64,15 @@ export interface StreamItem {
   readonly value: string;
 }
 
-export function generateOffsetStream(items: readonly StreamItem[], maxLines = 45): string {
+export function generateOffsetStream(items: readonly StreamItem[], maxLines = 45, loopToFill = false): string {
+  if (items.length === 0) return '';
   const lines: string[] = [];
-  const count = Math.min(items.length, maxLines);
+  const count = loopToFill ? maxLines : Math.min(items.length, maxLines);
 
   for (let i = 0; i < count; i++) {
-    const item = items[i];
-    const offsetHex = '0x' + item.offset.toString(16).padStart(4, '0').toUpperCase();
+    const item = items[i % items.length];
+    const offset = i * 32;
+    const offsetHex = '0x' + (offset % 0x10000).toString(16).padStart(4, '0').toUpperCase();
     const cat = item.category.padEnd(16, ' ').slice(0, 16);
     const val = item.value.padEnd(36, ' ').slice(0, 36);
     lines.push(`${offsetHex}  [${cat}]  ${val}  |LOGGED|`);

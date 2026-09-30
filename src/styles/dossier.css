@@ -69,7 +69,6 @@ a {
   margin: 0 auto;
   padding: 0 var(--space-4);
   position: relative;
-  z-index: 10;
 }
 
 @media (min-width: 640px) {
@@ -629,11 +628,27 @@ a {
 }
 
 .case-file-card {
-  background-color: var(--bg-surface);
+  position: relative;
+  background-color: transparent;
   border: 1px solid var(--border-hairline);
   padding: var(--space-6);
-  position: relative;
   transition: border-color 0.2s ease;
+}
+
+/* Card background layer sits at z-index 1 */
+.case-file-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--bg-surface);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Card content sits at z-index 3 (above the z-index 2 reveal layer) */
+.case-file-card > * {
+  position: relative;
+  z-index: 3;
 }
 
 .case-file-card:hover {
@@ -761,45 +776,57 @@ a {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 1;
+  z-index: 2;
   overflow: hidden;
   opacity: 1;
-  /* Large soft radial gradient: radius ~200px, peak opacity <= 0.12, no bright core */
+  /* Beam = ~300px radius, flat-top with a feathered edge (no bright core),
+     revealing the stream layers at ~0.4 opacity; base opacity 0.08 across full viewport */
   mask-image: radial-gradient(
-    circle 200px at var(--uv-x, -500px) var(--uv-y, -500px),
-    rgba(0, 0, 0, 0.12) 0%,
-    rgba(0, 0, 0, 0.08) 45%,
-    rgba(0, 0, 0, 0.03) 80%,
-    rgba(0, 0, 0, 0.02) 100%
+    circle 300px at var(--uv-x, -500px) var(--uv-y, -500px),
+    rgba(0, 0, 0, 0.40) 0px,
+    rgba(0, 0, 0, 0.40) 220px,
+    rgba(0, 0, 0, 0.08) 300px,
+    rgba(0, 0, 0, 0.08) 100%
   );
   -webkit-mask-image: radial-gradient(
-    circle 200px at var(--uv-x, -500px) var(--uv-y, -500px),
-    rgba(0, 0, 0, 0.12) 0%,
-    rgba(0, 0, 0, 0.08) 45%,
-    rgba(0, 0, 0, 0.03) 80%,
-    rgba(0, 0, 0, 0.02) 100%
+    circle 300px at var(--uv-x, -500px) var(--uv-y, -500px),
+    rgba(0, 0, 0, 0.40) 0px,
+    rgba(0, 0, 0, 0.40) 220px,
+    rgba(0, 0, 0, 0.08) 300px,
+    rgba(0, 0, 0, 0.08) 100%
   );
 }
 
 .uv-stream-track {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  bottom: 0;
   display: flex;
   flex-direction: column;
   pointer-events: none;
 }
 
 .stream-track-a {
-  animation: streamScrollUp 65s linear infinite;
+  left: 0;
+  width: 50vw;
+  animation: streamScrollUp 70s linear infinite;
   will-change: transform;
 }
 
 .stream-track-b {
-  animation: streamScrollDown 48s linear infinite;
+  left: 50vw;
+  width: 50vw;
+  animation: streamScrollDown 52s linear infinite;
   will-change: transform;
-  left: 52%;
+}
+
+@media (max-width: 768px) {
+  .stream-track-a {
+    width: 100vw;
+  }
+  .stream-track-b {
+    display: none;
+  }
 }
 
 @keyframes streamScrollUp {
@@ -817,11 +844,13 @@ a {
   font-size: 0.75rem;
   line-height: 1.45;
   color: var(--uv-violet);
-  text-shadow: 0 0 10px var(--uv-violet-glow);
+  text-shadow: none; /* Replace the glow: zero text-shadow */
   user-select: none;
   white-space: pre;
   margin: 0;
   padding: var(--space-4);
+  width: 100%;
+  overflow: hidden;
 }
 
 .uv-grain-overlay {
@@ -844,7 +873,7 @@ a {
   .global-uv-layer {
     mask-image: none !important;
     -webkit-mask-image: none !important;
-    opacity: 0.035 !important;
+    opacity: 0.08 !important;
   }
   .stream-track-a,
   .stream-track-b {

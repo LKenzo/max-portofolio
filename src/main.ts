@@ -111,7 +111,7 @@ function initGlobalUvLayerAndCursor(): void {
       ...PROFILE.projects.map((p) => `${p.name}: ${p.summary}`),
     ].join('\n');
 
-    const dumpA = generateHexDump(rawText, 45);
+    const dumpA = generateHexDump(rawText, 140, true);
     streamAEl.textContent = dumpA;
     streamADupEl.textContent = dumpA;
   }
@@ -137,7 +137,7 @@ function initGlobalUvLayerAndCursor(): void {
       { offset: 0x0220, category: 'STATUS', value: 'VERIFIED CUSTODY TRANSFER' },
     ];
 
-    const dumpB = generateOffsetStream(streamBItems, 45);
+    const dumpB = generateOffsetStream(streamBItems, 140, true);
     streamBEl.textContent = dumpB;
     streamBDupEl.textContent = dumpB;
   }
