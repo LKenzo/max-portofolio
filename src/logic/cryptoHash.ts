@@ -41,21 +41,35 @@ export function normalizeExhibitText(exhibit: ExhibitInput): string {
 
 /**
  * Computes a 64-character lowercase SHA-256 hexadecimal digest via Web Crypto API.
- * UI Label: "SHA-256 of this exhibit's text, computed in your browser"
+ * Returns null if crypto.subtle is unavailable (e.g. non-secure context) or if hashing fails.
  */
-export async function computeExhibitHash(exhibit: ExhibitInput): Promise<string> {
-  const normalized = normalizeExhibitText(exhibit);
-  const encoder = new TextEncoder();
-  const data = encoder.encode(normalized);
-
+export async function computeSha256(text: string): Promise<string | null> {
   const cryptoApi =
-    typeof window !== 'undefined' ? window.crypto : (globalThis as unknown as { crypto: Crypto }).crypto;
+    typeof window !== 'undefined'
+      ? window.crypto
+      : (globalThis as unknown as { crypto?: Crypto }).crypto;
 
   if (!cryptoApi || !cryptoApi.subtle) {
-    throw new Error('Web Crypto API (crypto.subtle) is not available.');
+    return null;
   }
 
-  const hashBuffer = await cryptoApi.subtle.digest('SHA-256', data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+  try {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(text);
+    const hashBuffer = await cryptoApi.subtle.digest('SHA-256', data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Computes SHA-256 over normalized exhibit text.
+ * UI Label: "SHA-256 of this exhibit's text, computed in your browser"
+ * Returns null if crypto.subtle is unavailable so the UI can gracefully omit or show no hash.
+ */
+export async function computeExhibitHash(exhibit: ExhibitInput): Promise<string | null> {
+  const normalized = normalizeExhibitText(exhibit);
+  return computeSha256(normalized);
 }

@@ -1,6 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   normalizeExhibitText,
+  computeSha256,
   computeExhibitHash,
   type ExhibitInput,
 } from '../src/logic/cryptoHash';
@@ -14,6 +15,23 @@ describe('cryptoHash logic & Web Crypto SHA-256 tests', () => {
     primaryLanguage: 'Python',
     url: 'https://github.com/example/sample-tool',
   };
+
+  describe('NIST Published Known-Answer Tests (KAT)', () => {
+    // Official NIST FIPS 180-2 / 180-4 test vectors
+    it('matches NIST test vector for empty string ("")', async () => {
+      const emptyHash = await computeSha256('');
+      expect(emptyHash).toBe(
+        'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+      );
+    });
+
+    it('matches NIST test vector for "abc"', async () => {
+      const abcHash = await computeSha256('abc');
+      expect(abcHash).toBe(
+        'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad'
+      );
+    });
+  });
 
   describe('normalizeExhibitText()', () => {
     it('normalizes CRLF to Unix LF', () => {
@@ -63,6 +81,7 @@ describe('cryptoHash logic & Web Crypto SHA-256 tests', () => {
   describe('computeExhibitHash()', () => {
     it('computes a valid 64-character lowercase hexadecimal hash', async () => {
       const hash = await computeExhibitHash(sampleExhibit);
+      expect(hash).not.toBeNull();
       expect(hash).toHaveLength(64);
       expect(hash).toMatch(/^[0-9a-f]{64}$/);
     });
@@ -88,9 +107,31 @@ describe('cryptoHash logic & Web Crypto SHA-256 tests', () => {
 
       for (const project of featured) {
         const hash = await computeExhibitHash(project);
+        expect(hash).not.toBeNull();
         expect(hash).toHaveLength(64);
         expect(hash).toMatch(/^[0-9a-f]{64}$/);
       }
     });
+
+    it('gracefully returns null instead of throwing when crypto.subtle is unavailable', async () => {
+      const originalSubtle = globalThis.crypto?.subtle;
+      try {
+        // Temporarily redefine subtle to undefined
+        Object.defineProperty(globalThis.crypto, 'subtle', {
+          value: undefined,
+          configurable: true,
+        });
+
+        const result = await computeExhibitHash(sampleExhibit);
+        expect(result).toBeNull();
+      } finally {
+        // Restore subtle
+        Object.defineProperty(globalThis.crypto, 'subtle', {
+          value: originalSubtle,
+          configurable: true,
+        });
+      }
+    });
   });
 });
+
