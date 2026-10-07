@@ -1,7 +1,6 @@
 import Lenis from 'lenis';
 import { mapOffsetToCurveT } from './logic/scrollMath';
 import { PROFILE } from './data/profile';
-import { computeExhibitHash } from './logic/cryptoHash';
 import { generateHexDump, generateOffsetStream, type StreamItem } from './logic/hexDump';
 
 /**
@@ -13,11 +12,9 @@ import { generateHexDump, generateOffsetStream, type StreamItem } from './logic/
  * 3. Lenis smooth scrolling (disabled if prefers-reduced-motion: reduce)
  * 4. Real DOM section offset tracking (recomputed on resize)
  * 5. 3D Cryptographic Evidence Seal positioning along Catmull-Rom spline
- * 6. Chain of Custody navigation & active stage tracking via CSS classes
+ * 6. Section navigation & active stage tracking via CSS classes
  * 7. Signature Moment 1: Hero name redaction bar lift
  * 8. Signature Moment 2: Dual full-viewport stream background with lerped UV flashlight
- * 9. Tiny 4px dot custom cursor with native pointer restoration on interactive elements
- * 10. Real browser-side Web Crypto SHA-256 exhibit digest calculation
  */
 
 const SECTION_IDS = ['identity', 'credentials', 'skills', 'works', 'contact'];
@@ -61,36 +58,10 @@ function initHeroRedaction(): void {
 }
 
 /**
- * Computes and renders reproducible SHA-256 digests in the browser
- * for each of the 4 featured exhibits using the Web Crypto API.
- */
-async function initExhibitsSha256(): Promise<void> {
-  const featured = PROFILE.projects.slice(0, 4);
-
-  for (let i = 0; i < featured.length; i++) {
-    const project = featured[i];
-    const hashEl = document.getElementById(`exhibit-hash-${i}`);
-    if (!hashEl) continue;
-
-    try {
-      const hash = await computeExhibitHash(project);
-      if (hash) {
-        hashEl.textContent = hash;
-      } else {
-        hashEl.textContent = '[Web Crypto API unavailable in current context]';
-      }
-    } catch {
-      hashEl.textContent = '[Web Crypto API unavailable in current context]';
-    }
-  }
-}
-
-/**
  * Signature Moment 2: Dual Stream Background Layers & Lerped UV Flashlight
  * - Layer A: Real UTF-8 bytes scrolling upward in infinite loop
- * - Layer B: Offset stream of verified records and hashes scrolling downward
- * - Soft radial gradient (radius ~200px, peak opacity <= 0.12) with smooth lerp lag
- * - Tiny 4px cursor hidden over interactive elements where native pointer returns
+ * - Layer B: Offset stream of verified records and projects scrolling downward
+ * - Soft radial gradient with smooth lerp lag
  */
 function initGlobalUvLayerAndCursor(): void {
   const streamAEl = document.getElementById('uv-stream-a');
@@ -115,25 +86,24 @@ function initGlobalUvLayerAndCursor(): void {
     streamADupEl.textContent = dumpA;
   }
 
-  // 2. Populate Layer B: Real section stages, repositories, and hashes
+  // 2. Populate Layer B: Real sections, degree progress, and featured projects
   if (streamBEl && streamBDupEl) {
     const streamBItems: StreamItem[] = [
-      { offset: 0x0000, category: 'STAGE 01', value: 'INTAKE & COLLECTION' },
-      { offset: 0x0020, category: 'IDENTITY', value: 'MAX FRENAT // BINUS' },
-      { offset: 0x0040, category: 'STAGE 02', value: 'CREDENTIALS LOGGED' },
-      { offset: 0x0060, category: 'ACADEMIC', value: 'B.CS CYBERSECURITY (GPA 3.63)' },
-      { offset: 0x0080, category: 'CERTIF', value: 'FORTINET FCF CYBERSECURITY' },
-      { offset: 0x00a0, category: 'STAGE 03', value: 'TOOLKIT AUDIT' },
-      { offset: 0x00c0, category: 'BIN-TOOLS', value: 'XXD, GHIDRA, GDB, RADARE2' },
-      { offset: 0x00e0, category: 'NET-TOOLS', value: 'WIRESHARK, TSHARK, OPENSSL' },
-      { offset: 0x0100, category: 'STAGE 04', value: 'EXHIBIT INSPECTION' },
+      { offset: 0x0000, category: '01 ABOUT', value: 'MAX FRENAT // BINUS' },
+      { offset: 0x0020, category: 'DEGREE', value: 'B.CS CYBERSECURITY (GPA 3.63)' },
+      { offset: 0x0040, category: '02 QUALIF', value: 'FORTINET FCF CYBERSECURITY' },
+      { offset: 0x0060, category: 'TRAINING', value: 'TRYHACKME PRE SECURITY' },
+      { offset: 0x0080, category: '03 SKILLS', value: 'SYSTEMS, NETWORKS, SCRIPTING' },
+      { offset: 0x00a0, category: 'TOOLS', value: 'XXD, GHIDRA, GDB, RADARE2' },
+      { offset: 0x00c0, category: 'NETWORK', value: 'WIRESHARK, TSHARK, OPENSSL' },
+      { offset: 0x00e0, category: '04 PROJECTS', value: 'FEATURED CASE STUDIES' },
       ...PROFILE.projects.map((p, idx) => ({
-        offset: 0x0120 + idx * 0x20,
-        category: `EXHIBIT ${String.fromCharCode(65 + idx)}`,
+        offset: 0x0100 + idx * 0x20,
+        category: `PROJ 0${idx + 1}`,
         value: p.name.toUpperCase(),
       })),
-      { offset: 0x0200, category: 'STAGE 05', value: 'CUSTODY SIGN-OFF' },
-      { offset: 0x0220, category: 'STATUS', value: 'VERIFIED CUSTODY TRANSFER' },
+      { offset: 0x0200, category: '05 CONTACT', value: 'DIRECT PROFILES & REPOSITORIES' },
+      { offset: 0x0220, category: 'STATUS', value: 'READY FOR INTERNSHIPS' },
     ];
 
     const dumpB = generateOffsetStream(streamBItems, 140, true);
@@ -169,7 +139,7 @@ function initGlobalUvLayerAndCursor(): void {
     targetY = -500;
   });
 
-  const revealElements = Array.from(document.querySelectorAll<HTMLElement>('.sha256-hash, .case-annotation'));
+  const revealElements = Array.from(document.querySelectorAll<HTMLElement>('.case-annotation'));
 
   function animateLight(): void {
     currentX += (targetX - currentX) * LERP_FACTOR;
@@ -295,10 +265,7 @@ function init(): void {
   // 2. Setup hero redaction reveal
   initHeroRedaction();
 
-  // 3. Setup dynamic Web Crypto SHA-256 exhibit digests
-  initExhibitsSha256();
-
-  // 4. Setup Global UV Viewport Layer & Custom Cursor
+  // 3. Setup Global UV Viewport Layer
   initGlobalUvLayerAndCursor();
 
   // 5. Setup UI observers & navigation
