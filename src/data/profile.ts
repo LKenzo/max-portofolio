@@ -18,8 +18,6 @@ export const PROFILE: ProfileData = {
     backgroundSummary:
       'Cybersecurity student at BINUS University with practical coursework in algorithmic problem solving and web exploitation. Active CTF competitor with experience in challenge writeups and technical documentation.',
     location: 'Jakarta, Indonesia',
-    email: '[YOUR_EMAIL]',
-    emailSource: 'direct',
     emailPendingConfirmation: null,
     links: [
       {
@@ -33,12 +31,6 @@ export const PROFILE: ProfileData = {
         url: 'https://www.linkedin.com/in/maximillian-frenat-80ab41286/',
         label: 'Maximillian Frenat',
         source: 'cv',
-      },
-      {
-        platform: 'Email',
-        url: 'mailto:[YOUR_EMAIL]',
-        label: '[YOUR_EMAIL]',
-        source: 'direct',
       },
     ],
     source: 'cv',
@@ -206,6 +198,35 @@ export const PROFILE: ProfileData = {
       source: 'github:Cybersecurity-Journey',
     },
     {
+      name: 'Mobile Application Penetration Testing',
+      repoName: 'Mobile-Pentest-Summary',
+      summary:
+        'Five-student course project assessing an Android app with OWASP MASTG: static and dynamic analysis, with findings scored in CVSS 4.0.',
+      primaryLanguage: 'Security Assessment / Android',
+      url: '/Pentest-Project-Summary.pdf',
+      highlights: [
+        'Tools: JADX, MobSF, Frida, Burp Suite, ADB.',
+        'Findings: exposed API key, client-side control bypass, device-block bypass.',
+        'Fixes: server-side validation, restricted keys, device attestation.',
+      ],
+      source: 'document:pentest-summary',
+    },
+    {
+      name: 'Social Media Project',
+      repoName: 'Social-Media-Project',
+      summary:
+        'Full-stack social media prototype developed as the Take-Home Case for Lab Assistant training (26-1) with JWT authentication, debounced Levenshtein search, and multimedia handling.',
+      primaryLanguage: 'TypeScript',
+      url: 'https://github.com/LKenzo/Social-Media-Project',
+      highlights: [
+        'Frontend developed with React; backend powered by NestJS and Prisma ORM.',
+        'JWT-based user authentication and session management.',
+        'Levenshtein distance algorithm for fuzzy user search with frontend debouncing.',
+        'Multer integration for image/video upload pipelines and dynamic user profiles.',
+      ],
+      source: 'github:Social-Media-Project',
+    },
+    {
       name: 'Mx-Security-Tools',
       repoName: 'Mx-Security-Tools',
       summary:
@@ -234,21 +255,6 @@ export const PROFILE: ProfileData = {
         'Security mini-projects: URL sanitizer and file-signature verifier.',
       ],
       source: 'github:Python-Journey',
-    },
-    {
-      name: 'Social Media Project',
-      repoName: 'Social-Media-Project',
-      summary:
-        'Full-stack social media prototype developed as the Take-Home Case for Lab Assistant training (26-1) with JWT authentication, debounced Levenshtein search, and multimedia handling.',
-      primaryLanguage: 'TypeScript',
-      url: 'https://github.com/LKenzo/Social-Media-Project',
-      highlights: [
-        'Frontend developed with React; backend powered by NestJS and Prisma ORM.',
-        'JWT-based user authentication and session management.',
-        'Levenshtein distance algorithm for fuzzy user search with frontend debouncing.',
-        'Multer integration for image/video upload pipelines and dynamic user profiles.',
-      ],
-      source: 'github:Social-Media-Project',
     },
     {
       name: 'TryHackMe Notes',

@@ -97,7 +97,7 @@ function initGlobalUvLayerAndCursor(): void {
       { offset: 0x00a0, category: 'TOOLS', value: 'XXD, GHIDRA, GDB, RADARE2' },
       { offset: 0x00c0, category: 'NETWORK', value: 'WIRESHARK, TSHARK, OPENSSL' },
       { offset: 0x00e0, category: '04 PROJECTS', value: 'FEATURED CASE STUDIES' },
-      ...PROFILE.projects.map((p, idx) => ({
+      ...PROFILE.projects.slice(0, 5).map((p, idx) => ({
         offset: 0x0100 + idx * 0x20,
         category: `PROJ 0${idx + 1}`,
         value: p.name.toUpperCase(),
@@ -139,7 +139,9 @@ function initGlobalUvLayerAndCursor(): void {
     targetY = -500;
   });
 
-  const revealElements = Array.from(document.querySelectorAll<HTMLElement>('.case-annotation'));
+  const revealElements = Array.from(
+    document.querySelectorAll<HTMLElement>('.case-annotation, .tech-box-content')
+  );
 
   function animateLight(): void {
     currentX += (targetX - currentX) * LERP_FACTOR;

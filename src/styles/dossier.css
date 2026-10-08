@@ -844,18 +844,38 @@ a {
   line-height: 1.5;
   color: var(--ink-secondary);
   word-break: break-word;
+  user-select: text;
+  /* Local beam-relative mask: opacity 0.12 outside beam, 1.0 inside beam */
+  mask-image: radial-gradient(
+    circle 300px at var(--beam-x, -999px) var(--beam-y, -999px),
+    rgba(0, 0, 0, 1) 0px,
+    rgba(0, 0, 0, 1) 180px,
+    rgba(0, 0, 0, 0.12) 300px,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    circle 300px at var(--beam-x, -999px) var(--beam-y, -999px),
+    rgba(0, 0, 0, 1) 0px,
+    rgba(0, 0, 0, 1) 180px,
+    rgba(0, 0, 0, 0.12) 300px,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+  transition: opacity 0.2s ease;
 }
 
 /* Full visibility on keyboard focus-within, no-js, touch, and prefers-reduced-motion */
 .case-file-card:focus-within .case-annotation,
-.no-js .case-annotation {
+.case-file-card:focus-within .tech-box-content,
+.no-js .case-annotation,
+.no-js .tech-box-content {
   mask-image: none !important;
   -webkit-mask-image: none !important;
   opacity: 1 !important;
 }
 
 @media (hover: none) and (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .case-annotation {
+  .case-annotation,
+  .tech-box-content {
     mask-image: none !important;
     -webkit-mask-image: none !important;
     opacity: 1 !important;
