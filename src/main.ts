@@ -91,8 +91,8 @@ function initGlobalUvLayerAndCursor(): void {
     const streamBItems: StreamItem[] = [
       { offset: 0x0000, category: '01 ABOUT', value: 'MAX FRENAT // BINUS' },
       { offset: 0x0020, category: 'DEGREE', value: 'B.CS CYBERSECURITY (GPA 3.63)' },
-      { offset: 0x0040, category: '02 QUALIF', value: 'FORTINET FCF CYBERSECURITY' },
-      { offset: 0x0060, category: 'TRAINING', value: 'TRYHACKME PRE SECURITY' },
+      { offset: 0x0040, category: '02 EDU', value: 'EDUCATION & CERTIFICATIONS' },
+      { offset: 0x0060, category: 'CERTIF', value: 'FORTINET FCF CYBERSECURITY' },
       { offset: 0x0080, category: '03 SKILLS', value: 'SYSTEMS, NETWORKS, SCRIPTING' },
       { offset: 0x00a0, category: 'TOOLS', value: 'XXD, GHIDRA, GDB, RADARE2' },
       { offset: 0x00c0, category: 'NETWORK', value: 'WIRESHARK, TSHARK, OPENSSL' },

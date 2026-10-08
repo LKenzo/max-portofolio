@@ -18,6 +18,8 @@ export const PROFILE: ProfileData = {
     backgroundSummary:
       'Cybersecurity student at BINUS University with practical coursework in algorithmic problem solving and web exploitation. Active CTF competitor with experience in challenge writeups and technical documentation.',
     location: 'Jakarta, Indonesia',
+    email: '[YOUR_EMAIL]',
+    emailSource: 'direct',
     emailPendingConfirmation: null,
     links: [
       {
@@ -31,6 +33,12 @@ export const PROFILE: ProfileData = {
         url: 'https://www.linkedin.com/in/maximillian-frenat-80ab41286/',
         label: 'Maximillian Frenat',
         source: 'cv',
+      },
+      {
+        platform: 'Email',
+        url: 'mailto:[YOUR_EMAIL]',
+        label: '[YOUR_EMAIL]',
+        source: 'direct',
       },
     ],
     source: 'cv',

@@ -6,7 +6,7 @@
  * 2. All structures are immutable (readonly).
  */
 
-export type DataSource = 'cv' | `github:${string}`;
+export type DataSource = 'cv' | 'direct' | `github:${string}`;
 
 export interface SocialLink {
   readonly platform: string;
@@ -93,7 +93,9 @@ export interface ProfileData {
     readonly headline: string;
     readonly backgroundSummary: string;
     readonly location: string;
-    readonly emailPendingConfirmation: string | null;
+    readonly email: string;
+    readonly emailSource: DataSource;
+    readonly emailPendingConfirmation?: string | null;
     readonly links: readonly SocialLink[];
     readonly source: DataSource;
   };
